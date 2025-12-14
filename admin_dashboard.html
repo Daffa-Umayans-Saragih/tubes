@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin — Krusty Krab</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="admin-page">
+  <header class="topbar">
+    <img src="krustykrablogo.png" alt="logo" class="top-logo" />
+    <div class="top-right">
+      <span id="adminName"></span>
+      <button id="logoutBtn" class="btn small">Logout</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1>Admin Dashboard</h1>
+    <p>Ini halaman sederhana untuk demo. Nanti backend akan isi data pesanan / menu / laporan.</p>
+    <div class="card">(Contoh) Daftar Pesanan masuk — akan ditampilkan oleh backend.</div>
+  </main>
+
+<script>
+  // Ambil data user yang sedang login
+  const currentUser = JSON.parse(localStorage.getItem('kk_currentUser') || 'null');
+
+  // Guard: hanya admin yang boleh masuk
+  if (!currentUser || currentUser.role !== 'admin') {
+    alert('Akses khusus admin. Silakan login sebagai admin.');
+    window.location.href = 'login.html';
+  } else {
+    // Tampilkan nama admin di header
+    document.getElementById('adminName').textContent = currentUser.username;
+  }
+
+  // Logout admin
+  document.getElementById('logoutBtn').addEventListener('click', () => {
+    localStorage.removeItem('kk_currentUser');
+    localStorage.removeItem('kk_guest');
+    window.location.href = 'login.html';
+  });
+</script>
+
+</body>
+</html>

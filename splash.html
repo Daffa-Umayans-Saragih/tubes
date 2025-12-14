@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Krusty Krab — Loading</title>
+
+  <!-- CSS SPLASH -->
+  <link rel="stylesheet" href="splash.css" />
+
+  <script>
+    // Fade out lalu pindah ke login
+    setTimeout(() => {
+      document.body.style.opacity = "0";
+    }, 1200);
+
+    setTimeout(() => {
+      window.location.href = "login.html";
+    }, 1700);
+  </script>
+</head>
+
+<body class="splash">
+  <div class="splash-inner">
+    <img src="krustykrablogo.png" alt="Krusty Krab Logo" class="splash-logo" />
+    <p class="splash-text">Loading Krusty Krab...</p>
+  </div>
+</body>
+</html>

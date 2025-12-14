@@ -1,0 +1,125 @@
+/* ====== GLOBAL ====== */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Background Sandy Depths */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #1B7EA1 0%, #F0E4C3 100%);
+}
+
+/* ====== AUTH CARD ====== */
+.auth-card {
+  width: 350px;
+  padding: 30px 28px;
+  background: #FAF8F2; /* Off-white soft */
+  border-radius: 20px;
+
+  /* Shadow soft elegan */
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.15);
+
+  text-align: center;
+}
+
+.auth-logo {
+  width: 90px;
+  margin-bottom: 10px;
+}
+
+/* Judul Sign In */
+.auth-card h2 {
+  color: #0F2C3F; /* Deep Sea Navy */
+  font-size: 26px;
+  margin-top: 5px;
+  margin-bottom: 0px;
+}
+
+/* Subtext */
+.auth-sub {
+  color: #4a4a4a;
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+/* ====== FORM INPUT ====== */
+form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Biar input & button selalu center */
+}
+
+.auth-card input {
+  width: 90%; /* Tidak full 100%, biar lebih rapi */
+  max-width: 300px;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 12px;
+  border: 1px solid #d7d7d7;
+  font-size: 14px;
+  background: #ffffff;
+  transition: 0.2s;
+}
+
+.auth-card input:focus {
+  border-color: #1B7EA1;
+  box-shadow: 0 0 6px rgba(27, 126, 161, 0.25);
+  outline: none;
+}
+
+/* ====== BUTTON ====== */
+.btn {
+  width: 90px;     /* Tombol pendek */
+  padding: 12px;
+  margin-top: 12px;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+
+  background: #F9C80E;
+  color: #0F2C3F;
+  transition: 0.15s;
+  text-align: center;
+
+  /* Center */
+  align-self: center;
+}
+
+/* Hover */
+.btn:hover {
+  background: #E0AE0D;
+}
+
+/* Active */
+.btn:active {
+  background: #C9990C;
+}
+
+.small-links,
+.guest-link {
+  font-size: 14px;      /* kembali normal seperti awal */
+  color: #333;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.small-links a,
+.guest-link a {
+  font-size: 14px;      /* biar link-nya ga ikut membesar */
+  color: #1B7EA1;
+  text-decoration: none;
+}
+
+.small-links a:hover,
+.guest-link a:hover {
+  text-decoration: underline;
+}
+
+

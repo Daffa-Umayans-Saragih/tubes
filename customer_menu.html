@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Krusty Krab | Order</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="customer_menu.css">
+</head>
+<body>
+
+<header class="header">
+  <h2>🦀 Krusty Krab</h2>
+</header>
+
+<!-- CATEGORY -->
+<nav class="category-nav">
+  <button class="active">Main Course</button>
+  <button>Appetizer</button>
+  <button>Drinks</button>
+  <button>Dessert</button>
+</nav>
+
+<!-- MENU LIST -->
+<section class="menu-container">
+  <div class="menu-card" data-name="Krabby Patty" data-price="12000">
+    <img src="assets/krabby-patty.jpg">
+    <h3>Krabby Patty</h3>
+    <p>Rp12.000</p>
+    <button class="add-btn">Add</button>
+  </div>
+
+  <div class="menu-card" data-name="Double Krabby Patty" data-price="18000">
+    <img src="assets/double-krabby.jpg">
+    <h3>Double Krabby Patty</h3>
+    <p>Rp18.000</p>
+    <button class="add-btn">Add</button>
+  </div>
+</section>
+
+<!-- ORDER BOTTOM SHEET -->
+<div class="order-sheet hidden">
+  <div class="order-content">
+    <h3 id="orderName"></h3>
+
+    <textarea placeholder="Notes untuk dapur"></textarea>
+
+    <div class="qty">
+      <button id="minus">-</button>
+      <span id="qty">1</span>
+      <button id="plus">+</button>
+    </div>
+
+    <p id="total">Total: Rp0</p>
+    <button class="order-btn">Add Order</button>
+  </div>
+</div>
+
+<!-- TABLE NUMBER -->
+<div class="table-modal">
+  <div class="table-box">
+    <h3>Dine In</h3>
+    <input type="number" placeholder="Enter your table number">
+    <button id="saveTable">Save</button>
+  </div>
+</div>
+
+<script src="customer_menu.js"></script>
+</body>
+</html>

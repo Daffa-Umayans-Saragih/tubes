@@ -1,0 +1,103 @@
+/* ====== GLOBAL ====== */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* ====== SPLASH PAGE ====== */
+.splash {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+
+  /* SAME BACKGROUND AS LOGIN */
+  background: linear-gradient(135deg, #1B7EA1 0%, #F0E4C3 100%);
+  transition: opacity 0.5s ease;
+}
+
+/* Konten tengah */
+.splash-inner {
+  text-align: center;
+  z-index: 2;
+}
+
+/* Logo */
+.splash-logo {
+  width: 160px;
+  animation: logoPop 1.2s ease-out forwards;
+}
+
+/* Text loading */
+.splash-text {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #0F2C3F;
+  opacity: 0;
+  animation: textFade 1s ease forwards;
+  animation-delay: 0.8s;
+}
+
+/* ====== ANIMATIONS ====== */
+@keyframes logoPop {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes textFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ====== BUBBLES ====== */
+.splash::before,
+.splash::after {
+  content: "";
+  position: absolute;
+  bottom: -100px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  animation: bubbleUp 6s infinite ease-in;
+}
+
+.splash::before {
+  left: 30%;
+  width: 40px;
+  height: 40px;
+}
+
+.splash::after {
+  left: 70%;
+  width: 25px;
+  height: 25px;
+  animation-delay: 2s;
+}
+
+@keyframes bubbleUp {
+  0% {
+    transform: translateY(0) scale(0.8);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-700px) scale(1.1);
+    opacity: 0;
+  }
+}

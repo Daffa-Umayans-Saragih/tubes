@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Krusty Krab — Welcome</title>
+
+  <!-- Pakai CSS splash yang sama -->
+  <link rel="stylesheet" href="splash.css" />
+
+ <script>
+  setTimeout(() => {
+    document.body.style.opacity = "0";
+  }, 1200);
+
+  setTimeout(() => {
+    const cur = JSON.parse(localStorage.getItem('kk_currentUser') || 'null');
+    const isGuest = localStorage.getItem('kk_guest') === 'true';
+
+    if (cur && cur.role === 'admin') {
+      window.location.href = 'admin_dashboard.html';
+    } else {
+      // customer atau guest
+      window.location.href = 'customer_menu.html';
+    }
+  }, 1700);
+</script>
+
+</head>
+
+<body class="splash">
+  <div class="splash-inner">
+    <img
+      src="krustykrablogo.png"
+      alt="Krusty Krab Logo"
+      class="splash-logo"
+    />
+    <p class="splash-text">Welcome to Krusty Krab 🍔</p>
+  </div>
+</body>
+</html>
