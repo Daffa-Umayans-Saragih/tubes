@@ -1,5 +1,13 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Krusty Krab | Order</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
 /* =========================
-   RESET & GLOBAL
+   RESET
 ========================= */
 * {
   margin: 0;
@@ -10,69 +18,57 @@
 
 body {
   background: #f4f6f8;
-  color: #222;
-  min-height: 100vh;
+}
+
+/* =========================
+   TOP BAR
+========================= */
+.top-bar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, #1B7EA1, #145f7a);
+  color: white;
+}
+
+.upgrade-link {
+  background: rgba(255,255,255,0.2);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  color: white;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profile img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
 }
 
 /* =========================
    HEADER
 ========================= */
 .header {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: linear-gradient(135deg, #1B7EA1, #145f7a);
-  color: white;
-  padding: 16px;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-}
-
-.header h2 {
-  font-size: 20px;
-  font-weight: 600;
+  padding: 16px;
+  background: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 /* =========================
-   CATEGORY NAV (SCROLL)
-========================= */
-.category-nav {
-  display: flex;
-  gap: 10px;
-  padding: 12px;
-  overflow-x: auto;
-  background: #ffffff;
-  border-bottom: 1px solid #ddd;
-}
-
-.category-nav::-webkit-scrollbar {
-  display: none;
-}
-
-.category-nav button {
-  flex-shrink: 0;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 999px;
-  background: #e6e6e6;
-  color: #333;
-  font-size: 14px;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.category-nav button:hover {
-  background: #d4d4d4;
-}
-
-.category-nav .active {
-  background: #F9C80E;
-  color: #000;
-  font-weight: 600;
-}
-
-/* =========================
-   MENU GRID
+   MENU
 ========================= */
 .menu-container {
   padding: 14px;
@@ -82,15 +78,10 @@ body {
 }
 
 .menu-card {
-  background: #ffffff;
+  background: white;
   border-radius: 16px;
   padding: 10px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-  transition: transform 0.15s ease;
-}
-
-.menu-card:hover {
-  transform: translateY(-3px);
 }
 
 .menu-card img {
@@ -98,166 +89,138 @@ body {
   height: 120px;
   object-fit: cover;
   border-radius: 12px;
-  margin-bottom: 8px;
-}
-
-.menu-card h3 {
-  font-size: 15px;
-  margin-bottom: 4px;
-}
-
-.menu-card p {
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 8px;
 }
 
 .add-btn {
   width: 100%;
   padding: 10px;
-  border-radius: 10px;
+  margin-top: 8px;
   border: none;
+  border-radius: 10px;
   background: #F9C80E;
-  color: #000;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.add-btn:hover {
-  background: #e6b800;
+  font-weight: bold;
 }
 
 /* =========================
-   ORDER BOTTOM SHEET
+   MEMBERSHIP MODAL
 ========================= */
-.order-sheet {
+.membership {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: #ffffff;
-  border-radius: 20px 20px 0 0;
-  box-shadow: 0 -4px 12px rgba(0,0,0,0.2);
-  padding: 16px;
-  z-index: 20;
-  animation: slideUp 0.3s ease;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
 }
 
-.hidden {
+.card {
+  background: white;
+  width: 320px;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+}
+
+.card h3 {
+  margin-bottom: 10px;
+}
+
+.card button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 14px;
+  border: none;
+  border-radius: 12px;
+  background: #1B7EA1;
+  color: white;
+  font-weight: bold;
+}
+
+.qr {
+  margin-top: 16px;
   display: none;
 }
 
-@keyframes slideUp {
-  from {
-    transform: translateY(100%);
-  }
-  to {
-    transform: translateY(0);
-  }
-}
-
-.order-content h3 {
-  font-size: 18px;
-  margin-bottom: 10px;
-}
-
-.order-content textarea {
-  width: 100%;
-  height: 70px;
-  resize: none;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  padding: 8px;
-  margin-bottom: 12px;
-}
-
-.qty {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 24px;
-  margin-bottom: 10px;
-}
-
-.qty button {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: none;
-  font-size: 18px;
+.success {
+  color: green;
   font-weight: bold;
-  background: #1B7EA1;
-  color: white;
-  cursor: pointer;
+  margin-top: 12px;
+  display: none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <a href="#" class="upgrade-link" onclick="openMembership()">Upgrade ke Premium</a>
+
+  <div class="profile">
+    <img src="https://i.pravatar.cc/50">
+    <span>User</span>
+  </div>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+  <h2>🦀 Krusty Krab</h2>
+</div>
+
+<!-- MENU -->
+<div class="menu-container">
+  <div class="menu-card">
+    <img src="https://picsum.photos/200/120">
+    <h3>Krabby Patty</h3>
+    <p>Rp12.000</p>
+    <button class="add-btn">Add</button>
+  </div>
+</div>
+
+<!-- MEMBERSHIP -->
+<div class="membership" id="membership">
+  <div class="card">
+    <h3>Premium Membership</h3>
+    <p>Akses fitur eksklusif</p>
+
+    <button onclick="subscribe()">Berlangganan Sekarang</button>
+
+    <div class="qr" id="qr">
+      <p>Scan QR untuk bayar</p>
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=ewallet.html">
+    </div>
+
+    <div class="success" id="success">
+      Pembayaran telah berhasil
+    </div>
+  </div>
+</div>
+
+<script>
+function openMembership() {
+  document.getElementById('membership').style.display = 'flex';
 }
 
-.qty span {
-  font-size: 16px;
-  font-weight: 600;
-}
+function subscribe() {
+  if (localStorage.getItem('premium') === 'true') {
+    alert('Akun anda sudah premium!');
+    return;
+  }
 
-#total {
-  text-align: center;
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
+  document.getElementById('qr').style.display = 'block';
 
-.order-btn {
-  width: 100%;
-  padding: 14px;
-  background: #1B7EA1;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-}
+  const payTab = window.open('ewallet.html', '_blank');
 
-.order-btn:hover {
-  background: #155f7c;
+  const check = setInterval(() => {
+    if (localStorage.getItem('payment_done') === 'true') {
+      clearInterval(check);
+      localStorage.setItem('premium', 'true');
+      document.getElementById('success').style.display = 'block';
+    }
+  }, 500);
 }
+</script>
 
-/* =========================
-   TABLE NUMBER MODAL
-========================= */
-.table-modal {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: #ffffff;
-  border-radius: 20px 20px 0 0;
-  padding: 20px;
-  z-index: 30;
-  box-shadow: 0 -4px 12px rgba(0,0,0,0.25);
-  animation: slideUp 0.3s ease;
-}
-
-.table-box h3 {
-  font-size: 18px;
-  margin-bottom: 12px;
-}
-
-.table-box input {
-  width: 100%;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
-  margin-bottom: 14px;
-  font-size: 14px;
-}
-
-.table-box button {
-  width: 100%;
-  padding: 12px;
-  background: #1B7EA1;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-}
+</body>
+</html>

@@ -1,83 +1,94 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Krusty Krab — Sign In</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Krusty Krab — Sign In</title>
+<link rel="stylesheet" href="style.css" />
+<style>
 @import url('https://fonts.googleapis.com/css2?family=Alata&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
 </style>
 </head>
+
 <body class="auth-page">
 
-  <div class="auth-card">
-    <img src="krustykrablogo.png" alt="logo" class="auth-logo" />
-    <h2 style="font-family: 'Alata';">Sign In</h2>
-    <p class="auth-sub" style="font-family: 'Comic Neue';">Selamat datang di Krusty Krab — order cepat & mudah!</p>
+<div class="auth-card">
+  <img src="krustykrablogo.png" alt="logo" class="auth-logo" />
 
-    <form id="loginForm" onsubmit="return false;">
-      <input id="login-username" type="text" placeholder="Username" required />
-      <input id="login-password" type="password" placeholder="Password" required />
-      <button id="btnLogin" class="btn" style="font-family: 'Alata';">Sign In</button>
-    </form>
+  <h2 style="font-family:'Alata'">Sign In</h2>
+  <p class="auth-sub" style="font-family:'Comic Neue'">
+    Selamat datang di Krusty Krab — order cepat & mudah!
+  </p>
 
-    <p class="small-links">
-      Belum punya akun? <a href="register.html">Sign Up</a>
-    </p>
+  <!-- STRUKTUR FORM ASLI -->
+  <form id="loginForm" onsubmit="return false;">
+    <input id="login-username" type="text" placeholder="Username" required />
+    <input id="login-password" type="password" placeholder="Password" required />
+    <button id="btnLogin" class="btn" style="font-family:'Alata'">
+      Sign In
+    </button>
+  </form>
 
-    <!-- Guest link kecil di bawah, sesuai pilihanmu (B) -->
-    <p class="guest-link">
-      Tidak mau buat akun? <a href="#" id="guestBtn">Continue as a Guest</a>
-    </p>
-  </div>
+  <p class="small-links">
+    Belum punya akun? <a href="register.html">Sign Up</a>
+  </p>
+  <p class="guest-link">
+    Tidak mau buat akun? <a href="#" id="guestBtn">Continue as a Guest</a>
+  </p>
+</div>
 
 <script>
-  function getUsers() {
-    const raw = localStorage.getItem('kk_users');
-    return raw ? JSON.parse(raw) : [];
+/* === LOGIN USER === */
+document.getElementById('btnLogin').addEventListener('click', function () {
+
+  const username = document.getElementById('login-username').value.trim();
+  const password = document.getElementById('login-password').value;
+
+  if (!username || !password) {
+    alert('Isi username & password');
+    return;
   }
 
-  document.getElementById('btnLogin').addEventListener('click', () => {
-    const u = document.getElementById('login-username').value.trim();
-    const p = document.getElementById('login-password').value;
-    if (!u || !p) { alert('Isi username & password'); return; }
-    if (u === 'admin' && p === 'admin123'){
-      localStorage.setItem(
-        'kk_currentUser',
-        JSON.stringify({ username: 'admin', role: 'admin' })
-      );
-      window.location.href = 'admin_dashboard.html';
+  fetch('login.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      username: username,
+      password: password
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    if (data.status !== 'success') {
+      alert(data.message);
       return;
     }
 
-    const users = getUsers();
-    const found = users.find(x => x.username === u && x.password === p);
-    if (!found) {
-      alert('Username atau password salah.');
-      return;
-    }
-
+    /* SIMPAN USER */
     localStorage.setItem(
       'kk_currentUser',
-      JSON.stringify({ username: found.username, role: found.role || 'customer' })
+      JSON.stringify({
+        username: data.username,
+        role: data.role,
+        is_premium: data.is_premium
+      })
     );
 
-    // 👉 JANGAN ke dashboard langsung
-    window.location.href = 'splash_login.html';
-  });
+    /* REDIRECT */
+    window.location.href = 'customer_menu.html';
+  })
+  .catch(() => alert('Server error'));
+});
 
-  document.getElementById('guestBtn').addEventListener('click', (e) => {
-    e.preventDefault();
-    localStorage.removeItem('kk_currentUser');
-    localStorage.setItem('kk_guest', 'true');
-
-    // 👉 guest juga lewat splash_login
-    window.location.href = 'splash_login.html';
-  });
+/* === GUEST MODE === */
+document.getElementById('guestBtn').addEventListener('click', function (e) {
+  e.preventDefault();
+  localStorage.removeItem('kk_currentUser');
+  localStorage.setItem('kk_guest', 'true');
+  window.location.href = 'customer_menu.html';
+});
 </script>
-
 
 </body>
 </html>
