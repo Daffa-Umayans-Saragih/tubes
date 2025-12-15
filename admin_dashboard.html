@@ -1,44 +1,759 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Admin — Krusty Krab</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Krusty Krab | Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .sidebar {
+      min-height: 100vh;
+      background-color: #fff;
+      border-right: 1px solid #dee2e6;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 250px;
+      padding-top: 70px;
+    }
+
+    .sidebar .nav-link {
+      color: #495057;
+      padding: 12px 20px;
+      border-left: 3px solid transparent;
+    }
+
+    .sidebar .nav-link:hover {
+      background-color: #f8f9fa;
+      color: #0d6efd;
+    }
+
+    .sidebar .nav-link.active {
+      color: #0d6efd;
+      background-color: #e7f1ff;
+      border-left-color: #0d6efd;
+      font-weight: 600;
+    }
+
+    .main-content {
+      margin-left: 250px;
+      padding-top: 70px;
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1030;
+      background-color: #fff;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    .stat-card {
+      border-left: 4px solid;
+    }
+
+    .stat-card.success {
+      border-left-color: #198754;
+    }
+
+    .stat-card.primary {
+      border-left-color: #0d6efd;
+    }
+
+    .stat-card.warning {
+      border-left-color: #ffc107;
+    }
+
+    .stat-card.danger {
+      border-left-color: #dc3545;
+    }
+
+    .menu-card {
+      transition: transform 0.2s;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .menu-card img {
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .chart-container {
+      position: relative;
+      height: 350px;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 200px;
+      }
+      .main-content {
+        margin-left: 200px;
+      }
+    }
+  </style>
 </head>
-<body class="admin-page">
-  <header class="topbar">
-    <img src="krustykrablogo.png" alt="logo" class="top-logo" />
-    <div class="top-right">
-      <span id="adminName"></span>
-      <button id="logoutBtn" class="btn small">Logout</button>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="#">🦀 Krusty Krab Admin</a>
+    <div class="d-flex align-items-center">
+      <span class="me-3" id="adminName">Admin</span>
+      <button class="btn btn-danger btn-sm" id="logoutBtn">
+        <i class="bi bi-box-arrow-right"></i> Logout
+      </button>
     </div>
-  </header>
+  </div>
+</nav>
 
-  <main class="container">
-    <h1>Admin Dashboard</h1>
-    <p>Ini halaman sederhana untuk demo. Nanti backend akan isi data pesanan / menu / laporan.</p>
-    <div class="card">(Contoh) Daftar Pesanan masuk — akan ditampilkan oleh backend.</div>
-  </main>
+<!-- Sidebar -->
+<div class="sidebar">
+  <nav class="nav flex-column">
+    <a class="nav-link active" href="#" data-section="dashboard">
+      <i class="bi bi-speedometer2"></i> Dashboard
+    </a>
+    <a class="nav-link" href="#" data-section="orders">
+      <i class="bi bi-clipboard-check"></i> Kelola Pesanan
+    </a>
+    <a class="nav-link" href="#" data-section="menu">
+      <i class="bi bi-box"></i> Kelola Menu
+    </a>
+    <a class="nav-link" href="#" data-section="reports">
+      <i class="bi bi-file-earmark-text"></i> Laporan
+    </a>
+    <a class="nav-link" href="#" data-section="customers">
+      <i class="bi bi-people"></i> Data Customer
+    </a>
+  </nav>
+</div>
 
+<!-- Main Content -->
+<main class="main-content">
+  <div class="container-fluid p-4">
+
+    <!-- DASHBOARD SECTION -->
+    <div class="section" id="dashboard">
+      <h2 class="mb-4">Dashboard Overview</h2>
+      
+      <!-- Stats Cards -->
+      <div class="row g-3 mb-4">
+        <div class="col-md-3">
+          <div class="card stat-card success">
+            <div class="card-body">
+              <h6 class="card-subtitle mb-2 text-muted">Total Pendapatan Hari Ini</h6>
+              <h3 class="card-title mb-0" id="totalRevenue">Rp1.250.000</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card stat-card primary">
+            <div class="card-body">
+              <h6 class="card-subtitle mb-2 text-muted">Total Pesanan Hari Ini</h6>
+              <h3 class="card-title mb-0" id="totalOrders">45</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card stat-card warning">
+            <div class="card-body">
+              <h6 class="card-subtitle mb-2 text-muted">Pesanan Pending</h6>
+              <h3 class="card-title mb-0" id="pendingOrders">8</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card stat-card danger">
+            <div class="card-body">
+              <h6 class="card-subtitle mb-2 text-muted">Menu Terlaris</h6>
+              <h3 class="card-title mb-0" id="popularMenu">Krabby Patty</h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="mb-0">Grafik Penjualan Mingguan</h5>
+        </div>
+        <div class="card-body">
+          <div class="chart-container">
+            <canvas id="salesChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Top Menu Table -->
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Menu Terlaris</h5>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Rank</th>
+                  <th>Nama Menu</th>
+                  <th>Kategori</th>
+                  <th>Terjual</th>
+                  <th>Pendapatan</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="badge bg-warning">1</span></td>
+                  <td>Krabby Patty</td>
+                  <td>Main Course</td>
+                  <td>145</td>
+                  <td>Rp1.740.000</td>
+                </tr>
+                <tr>
+                  <td><span class="badge bg-secondary">2</span></td>
+                  <td>Double Krabby Patty</td>
+                  <td>Main Course</td>
+                  <td>98</td>
+                  <td>Rp1.764.000</td>
+                </tr>
+                <tr>
+                  <td><span class="badge bg-secondary">3</span></td>
+                  <td>Kelp Shake</td>
+                  <td>Drinks</td>
+                  <td>76</td>
+                  <td>Rp760.000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORDERS SECTION -->
+    <div class="section d-none" id="orders">
+      <h2 class="mb-4">Kelola Pesanan</h2>
+      
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">Daftar Pesanan</h5>
+          <select class="form-select form-select-sm w-auto" id="orderStatusFilter">
+            <option value="all">Semua Status</option>
+            <option value="pending">Pending</option>
+            <option value="cooking">Cooking</option>
+            <option value="ready">Ready</option>
+            <option value="served">Served</option>
+          </select>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>Order ID</th>
+                  <th>Meja</th>
+                  <th>Items</th>
+                  <th>Total</th>
+                  <th>Waktu</th>
+                  <th>Status</th>
+                  <th>Aksi</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>#001</strong></td>
+                  <td>5</td>
+                  <td>2x Krabby Patty, 1x Kelp Shake</td>
+                  <td>Rp34.000</td>
+                  <td>10:45</td>
+                  <td><span class="badge bg-info">Cooking</span></td>
+                  <td>
+                    <button class="btn btn-sm btn-primary" onclick="viewOrder('001')">
+                      <i class="bi bi-eye"></i> Detail
+                    </button>
+                    <select class="form-select form-select-sm d-inline-block w-auto" onchange="updateOrderStatus('001', this.value)">
+                      <option value="pending">Pending</option>
+                      <option value="cooking" selected>Cooking</option>
+                      <option value="ready">Ready</option>
+                      <option value="served">Served</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>#002</strong></td>
+                  <td>3</td>
+                  <td>1x Double Krabby Patty</td>
+                  <td>Rp18.000</td>
+                  <td>11:20</td>
+                  <td><span class="badge bg-warning">Pending</span></td>
+                  <td>
+                    <button class="btn btn-sm btn-primary" onclick="viewOrder('002')">
+                      <i class="bi bi-eye"></i> Detail
+                    </button>
+                    <select class="form-select form-select-sm d-inline-block w-auto" onchange="updateOrderStatus('002', this.value)">
+                      <option value="pending" selected>Pending</option>
+                      <option value="cooking">Cooking</option>
+                      <option value="ready">Ready</option>
+                      <option value="served">Served</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>#003</strong></td>
+                  <td>7</td>
+                  <td>3x Krabby Patty, 2x Kelp Fries</td>
+                  <td>Rp52.000</td>
+                  <td>11:35</td>
+                  <td><span class="badge bg-success">Ready</span></td>
+                  <td>
+                    <button class="btn btn-sm btn-primary" onclick="viewOrder('003')">
+                      <i class="bi bi-eye"></i> Detail
+                    </button>
+                    <select class="form-select form-select-sm d-inline-block w-auto" onchange="updateOrderStatus('003', this.value)">
+                      <option value="pending">Pending</option>
+                      <option value="cooking">Cooking</option>
+                      <option value="ready" selected>Ready</option>
+                      <option value="served">Served</option>
+                    </select>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MENU SECTION -->
+    <div class="section d-none" id="menu">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Kelola Menu</h2>
+        <button class="btn btn-success" id="addMenuBtn">
+          <i class="bi bi-plus-circle"></i> Tambah Menu
+        </button>
+      </div>
+
+      <div class="card mb-3">
+        <div class="card-body">
+          <select class="form-select w-auto" id="menuCategoryFilter">
+            <option value="all">Semua Kategori</option>
+            <option value="Main Course">Main Course</option>
+            <option value="Appetizer">Appetizer</option>
+            <option value="Drinks">Drinks</option>
+            <option value="Dessert">Dessert</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row g-3" id="menuGrid">
+        <div class="col-md-3">
+          <div class="card menu-card">
+            <img src="assets/krabby-patty.jpg" class="card-img-top" alt="Krabby Patty">
+            <div class="card-body">
+              <h5 class="card-title">Krabby Patty</h5>
+              <p class="card-text text-primary fw-bold">Rp12.000</p>
+              <div class="d-flex gap-2">
+                <button class="btn btn-success btn-sm flex-fill" onclick="editMenu(1)">Edit</button>
+                <button class="btn btn-danger btn-sm flex-fill" onclick="deleteMenu(1)">Hapus</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="card menu-card">
+            <img src="assets/double-krabby.jpg" class="card-img-top" alt="Double Krabby Patty">
+            <div class="card-body">
+              <h5 class="card-title">Double Krabby Patty</h5>
+              <p class="card-text text-primary fw-bold">Rp18.000</p>
+              <div class="d-flex gap-2">
+                <button class="btn btn-success btn-sm flex-fill" onclick="editMenu(2)">Edit</button>
+                <button class="btn btn-danger btn-sm flex-fill" onclick="deleteMenu(2)">Hapus</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REPORTS SECTION -->
+    <div class="section d-none" id="reports">
+      <h2 class="mb-4">Laporan Penjualan</h2>
+
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">Data Penjualan</h5>
+          <select class="form-select form-select-sm w-auto" id="reportPeriod" onchange="loadReports()">
+            <option value="daily">Harian</option>
+            <option value="weekly">Mingguan</option>
+            <option value="monthly">Bulanan</option>
+          </select>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0" id="reportsTable">
+              <thead class="table-light" id="reportsHeader">
+                <tr>
+                  <th>Tanggal</th>
+                  <th>Total Pesanan</th>
+                  <th>Total Pendapatan</th>
+                  <th>Menu Terlaris</th>
+                </tr>
+              </thead>
+              <tbody id="reportsBody">
+                <tr>
+                  <td>15 Des 2024</td>
+                  <td>45</td>
+                  <td>Rp1.250.000</td>
+                  <td>Krabby Patty</td>
+                </tr>
+                <tr>
+                  <td>14 Des 2024</td>
+                  <td>52</td>
+                  <td>Rp1.480.000</td>
+                  <td>Double Krabby Patty</td>
+                </tr>
+                <tr>
+                  <td>13 Des 2024</td>
+                  <td>38</td>
+                  <td>Rp980.000</td>
+                  <td>Krabby Patty</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CUSTOMERS SECTION -->
+    <div class="section d-none" id="customers">
+      <h2 class="mb-4">Data Customer</h2>
+
+      <div class="card">
+        <div class="card-header">
+          <h5 class="mb-0">Daftar Customer</h5>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover mb-0">
+              <thead class="table-light">
+                <tr>
+                  <th>ID</th>
+                  <th>Nama</th>
+                  <th>Email</th>
+                  <th>No. Telepon</th>
+                  <th>Total Pesanan</th>
+                  <th>Total Belanja</th>
+                  <th>Bergabung</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>C001</strong></td>
+                  <td>SpongeBob SquarePants</td>
+                  <td>spongebob@bikinibottom.com</td>
+                  <td>0812-3456-7890</td>
+                  <td>28</td>
+                  <td>Rp856.000</td>
+                  <td>10 Jan 2024</td>
+                </tr>
+                <tr>
+                  <td><strong>C002</strong></td>
+                  <td>Patrick Star</td>
+                  <td>patrick@bikinibottom.com</td>
+                  <td>0823-4567-8901</td>
+                  <td>15</td>
+                  <td>Rp420.000</td>
+                  <td>15 Feb 2024</td>
+                </tr>
+                <tr>
+                  <td><strong>C003</strong></td>
+                  <td>Squidward Tentacles</td>
+                  <td>squidward@bikinibottom.com</td>
+                  <td>0834-5678-9012</td>
+                  <td>8</td>
+                  <td>Rp180.000</td>
+                  <td>20 Mar 2024</td>
+                </tr>
+                <tr>
+                  <td><strong>C004</strong></td>
+                  <td>Sandy Cheeks</td>
+                  <td>sandy@bikinibottom.com</td>
+                  <td>0845-6789-0123</td>
+                  <td>32</td>
+                  <td>Rp1.120.000</td>
+                  <td>05 Apr 2024</td>
+                </tr>
+                <tr>
+                  <td><strong>C005</strong></td>
+                  <td>Mr. Krabs</td>
+                  <td>krabs@krustykrab.com</td>
+                  <td>0856-7890-1234</td>
+                  <td>5</td>
+                  <td>Rp95.000</td>
+                  <td>01 Jan 2024</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- Menu Modal -->
+<div class="modal fade" id="menuModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalTitle">Tambah Menu Baru</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <form id="menuForm">
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Nama Menu *</label>
+            <input type="text" class="form-control" id="menuName" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Kategori *</label>
+            <select class="form-select" id="menuCategory" required>
+              <option value="Main Course">Main Course</option>
+              <option value="Appetizer">Appetizer</option>
+              <option value="Drinks">Drinks</option>
+              <option value="Dessert">Dessert</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Harga (Rp) *</label>
+            <input type="number" class="form-control" id="menuPrice" required min="0">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Deskripsi</label>
+            <textarea class="form-control" id="menuDescription" rows="3"></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">URL Gambar *</label>
+            <input type="text" class="form-control" id="menuImage" required>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+          <button type="submit" class="btn btn-success">Simpan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  // Ambil data user yang sedang login
-  const currentUser = JSON.parse(localStorage.getItem('kk_currentUser') || 'null');
+  // Sidebar navigation
+  document.querySelectorAll('.sidebar .nav-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      
+      document.querySelectorAll('.sidebar .nav-link').forEach(l => l.classList.remove('active'));
+      link.classList.add('active');
+      
+      document.querySelectorAll('.section').forEach(section => {
+        section.classList.add('d-none');
+      });
+      
+      const sectionId = link.dataset.section;
+      document.getElementById(sectionId).classList.remove('d-none');
+    });
+  });
 
-  // Guard: hanya admin yang boleh masuk
-  if (!currentUser || currentUser.role !== 'admin') {
-    alert('Akses khusus admin. Silakan login sebagai admin.');
-    window.location.href = 'login.html';
-  } else {
-    // Tampilkan nama admin di header
-    document.getElementById('adminName').textContent = currentUser.username;
+  // Chart
+  const ctx = document.getElementById('salesChart').getContext('2d');
+  const salesChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'],
+      datasets: [{
+        label: 'Pendapatan (Rp)',
+        data: [1200000, 1500000, 980000, 1750000, 2100000, 2400000, 1800000],
+        borderColor: '#0d6efd',
+        backgroundColor: 'rgba(13, 110, 253, 0.1)',
+        tension: 0.4,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top'
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            callback: function(value) {
+              return 'Rp' + value.toLocaleString('id-ID');
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // Reports period change
+  function loadReports() {
+    const period = document.getElementById('reportPeriod').value;
+    const header = document.getElementById('reportsHeader');
+    const body = document.getElementById('reportsBody');
+    
+    if (period === 'daily') {
+      header.innerHTML = `
+        <tr>
+          <th>Tanggal</th>
+          <th>Total Pesanan</th>
+          <th>Total Pendapatan</th>
+          <th>Menu Terlaris</th>
+        </tr>
+      `;
+      body.innerHTML = `
+        <tr>
+          <td>15 Des 2024</td>
+          <td>45</td>
+          <td>Rp1.250.000</td>
+          <td>Krabby Patty</td>
+        </tr>
+        <tr>
+          <td>14 Des 2024</td>
+          <td>52</td>
+          <td>Rp1.480.000</td>
+          <td>Double Krabby Patty</td>
+        </tr>
+        <tr>
+          <td>13 Des 2024</td>
+          <td>38</td>
+          <td>Rp980.000</td>
+          <td>Krabby Patty</td>
+        </tr>
+      `;
+    } else if (period === 'weekly') {
+      header.innerHTML = `
+        <tr>
+          <th>Minggu</th>
+          <th>Total Pesanan</th>
+          <th>Total Pendapatan</th>
+          <th>Menu Terlaris</th>
+        </tr>
+      `;
+      body.innerHTML = `
+        <tr>
+          <td>Minggu ke-2 Des</td>
+          <td>287</td>
+          <td>Rp8.450.000</td>
+          <td>Krabby Patty</td>
+        </tr>
+        <tr>
+          <td>Minggu ke-1 Des</td>
+          <td>312</td>
+          <td>Rp9.120.000</td>
+          <td>Double Krabby Patty</td>
+        </tr>
+        <tr>
+          <td>Minggu ke-4 Nov</td>
+          <td>298</td>
+          <td>Rp8.780.000</td>
+          <td>Krabby Patty</td>
+        </tr>
+      `;
+    } else if (period === 'monthly') {
+      header.innerHTML = `
+        <tr>
+          <th>Bulan</th>
+          <th>Total Pesanan</th>
+          <th>Total Pendapatan</th>
+          <th>Menu Terlaris</th>
+        </tr>
+      `;
+      body.innerHTML = `
+        <tr>
+          <td>Desember 2024</td>
+          <td>1.245</td>
+          <td>Rp36.800.000</td>
+          <td>Krabby Patty</td>
+        </tr>
+        <tr>
+          <td>November 2024</td>
+          <td>1.387</td>
+          <td>Rp40.200.000</td>
+          <td>Double Krabby Patty</td>
+        </tr>
+        <tr>
+          <td>Oktober 2024</td>
+          <td>1.156</td>
+          <td>Rp34.500.000</td>
+          <td>Krabby Patty</td>
+        </tr>
+      `;
+    }
   }
 
-  // Logout admin
+  // Order functions
+  function viewOrder(id) {
+    alert('Melihat detail pesanan #' + id);
+  }
+
+  function updateOrderStatus(id, status) {
+    alert('Status pesanan #' + id + ' diubah menjadi: ' + status);
+  }
+
+  // Menu modal
+  const menuModal = new bootstrap.Modal(document.getElementById('menuModal'));
+  
+  document.getElementById('addMenuBtn').addEventListener('click', () => {
+    document.getElementById('modalTitle').textContent = 'Tambah Menu Baru';
+    document.getElementById('menuForm').reset();
+    menuModal.show();
+  });
+
+  document.getElementById('menuForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert('Menu berhasil disimpan!');
+    menuModal.hide();
+  });
+
+  function editMenu(id) {
+    document.getElementById('modalTitle').textContent = 'Edit Menu';
+    menuModal.show();
+  }
+
+  function deleteMenu(id) {
+    if (confirm('Yakin ingin menghapus menu ini?')) {
+      alert('Menu berhasil dihapus!');
+    }
+  }
+
+  // Logout
   document.getElementById('logoutBtn').addEventListener('click', () => {
-    localStorage.removeItem('kk_currentUser');
-    localStorage.removeItem('kk_guest');
-    window.location.href = 'login.html';
+    if (confirm('Yakin ingin logout?')) {
+      alert('Logout berhasil!');
+      // window.location.href = 'login.html';
+    }
   });
 </script>
 
