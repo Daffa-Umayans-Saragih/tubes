@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DANA | Pembayaran</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f2f5f9;
+    }
+
+    /* HEADER DANA */
+    .header {
+      background: linear-gradient(135deg, #008DEB, #00B4FF);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    /* CARD */
+    .container {
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+
+    .merchant {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .merchant img {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+    }
+
+    .merchant-name {
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .amount {
+      font-size: 28px;
+      font-weight: bold;
+      margin: 20px 0;
+      color: #111;
+    }
+
+    .detail {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin: 6px 0;
+      color: #555;
+    }
+
+    /* BUTTON */
+    .btn-pay {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: bold;
+      background: #00AEEF;
+      color: white;
+      cursor: pointer;
+    }
+
+    .btn-pay:active {
+      transform: scale(0.98);
+    }
+
+    .cancel {
+      text-align: center;
+      margin-top: 14px;
+    }
+
+    .cancel a {
+      color: #008DEB;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    /* LOADING */
+    .loading {
+      display: none;
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    Konfirmasi Pembayaran
+  </div>
+
+  <div class="container">
+
+    <!-- MERCHANT -->
+    <div class="card">
+      <div class="merchant">
+        <img src="krustykrablogo.png" alt="Merchant">
+        <div>
+          <div class="merchant-name">Krusty Krab</div>
+          <div style="font-size:13px;color:#777;">
+            Premium Membership
+          </div>
+        </div>
+      </div>
+
+      <div class="amount">Rp 99.000</div>
+
+      <div class="detail">
+        <span>Metode</span>
+        <span>DANA Balance</span>
+      </div>
+      <div class="detail">
+        <span>ID Transaksi</span>
+        <span id="trxId"></span>
+      </div>
+    </div>
+
+    <!-- BUTTON -->
+    <button class="btn-pay" onclick="prosesBayar()">
+      Bayar Sekarang
+    </button>
+
+    <div class="loading" id="loading">
+      Memproses pembayaran...
+    </div>
+
+    <div class="cancel">
+      <a href="membership.html">Batalkan</a>
+    </div>
+
+  </div>
+
+<script>
+  // generate ID transaksi dummy
+  document.getElementById('trxId').textContent =
+    'TRX' + Math.floor(Math.random() * 1000000000);
+
+  function prosesBayar() {
+    document.querySelector('.btn-pay').disabled = true;
+    document.getElementById('loading').style.display = 'block';
+
+    // simulasi delay gateway
+    setTimeout(() => {
+      localStorage.setItem('kk_payment_success', 'true');
+      window.location.href = 'membership.html';
+    }, 2000);
+  }
+</script>
+
+</body>
+</html>

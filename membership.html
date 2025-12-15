@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Krusty Krab — Membership</title>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Alata&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400;700&display=swap');
+
+.btn-premium {
+  padding: 16px 28px;
+  font-size: 16px;
+  min-width: 240px;
+  border-radius: 16px;
+}
+
+.qr-box {
+  margin-top: 18px;
+  padding: 16px;
+  border-radius: 14px;
+  background: #f7f7f7;
+  display: none;
+  text-align: center;
+}
+
+.qr-box img {
+  width: 180px;
+  margin: 10px auto;
+  display: block;
+}
+
+.success-msg {
+  color: green;
+  font-weight: bold;
+  margin-top: 12px;
+}
+  </style>
+</head>
+
+<body class="auth-page">
+
+<div class="auth-card">
+  <img src="krustykrablogo.png" class="auth-logo" />
+
+  <h2 style="font-family:'Alata';">Premium Membership</h2>
+  <p class="auth-sub" style="font-family:'Comic Neue';">
+    Aktifkan akses premium Krusty Krab
+  </p>
+
+  <div style="margin:20px 0;">
+    <h3>Premium Membership</h3>
+    <p>✔ Akses khusus member</p>
+    <p>✔ Simulasi order eksklusif</p>
+    <p>✔ Prioritas layanan</p>
+    <p style="font-weight:bold;">Harga: Rp 99.000 / bulan</p>
+  </div>
+
+  <button class="btn btn-premium" onclick="handleLangganan()" style="font-family:'Alata';">
+    Berlangganan Sekarang
+  </button>
+
+  <!-- QR -->
+  <div id="qrBox" class="qr-box">
+    <p><strong>Scan QR untuk melanjutkan pembayaran</strong></p>
+    <img id="qrImage" alt="QR E-Wallet">
+    <p style="font-size:12px;">* QR akan membuka halaman e-wallet</p>
+  </div>
+
+  <p id="successText" class="success-msg" style="display:none;">
+    Pembayaran telah berhasil
+  </p>
+
+  <p class="small-links" style="margin-top:16px;">
+    <a href="login.html">Kembali ke Login</a>
+  </p>
+</div>
+
+<script>
+function getCurrentUser() {
+  return JSON.parse(localStorage.getItem('kk_currentUser') || '{}');
+}
+
+function handleLangganan() {
+  const user = getCurrentUser();
+
+  // ✅ JIKA SUDAH PREMIUM
+  if (user.role === 'membership' && user.membership === 'premium') {
+    alert('Akun anda sudah premium!');
+    return;
+  }
+
+  // ⏩ JIKA BELUM, TAMPILKAN QR
+  tampilkanQR();
+}
+
+function tampilkanQR() {
+  const qrBox = document.getElementById('qrBox');
+  const qrImage = document.getElementById('qrImage');
+
+  const ewalletURL =
+    window.location.origin +
+    window.location.pathname.replace('membership.html', '') +
+    'ewallet_payment.html';
+
+  qrImage.src =
+    'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=' +
+    encodeURIComponent(ewalletURL);
+
+  qrBox.style.display = 'block';
+}
+
+/* CEK SETELAH BAYAR */
+if (localStorage.getItem('kk_payment_success') === 'true') {
+  document.getElementById('successText').style.display = 'block';
+
+  const user = getCurrentUser();
+  user.role = 'membership';
+  user.membership = 'premium';
+  localStorage.setItem('kk_currentUser', JSON.stringify(user));
+
+  localStorage.removeItem('kk_payment_success');
+}
+</script>
+
+</body>
+</html>
