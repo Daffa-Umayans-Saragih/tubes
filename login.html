@@ -60,12 +60,17 @@ document.getElementById('btnLogin').addEventListener('click', function () {
       alert(data.message);
       return;
     }
+    if (data.role === 'admin') {
+      window.location.href = 'admin_dashboard.php';
+      return;
+    }
 
     // ⬅️ TIDAK SIMPAN APA-APA
     window.location.href = 'customer_menu.php';
   })
   .catch(() => alert('Server error'));
 });
+
 </script>
 
 
