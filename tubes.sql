@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 16, 2025 at 12:14 AM
+-- Generation Time: Dec 16, 2025 at 10:48 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -32,7 +32,7 @@ CREATE TABLE `akun` (
   `email` varchar(100) NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `status` enum('admin','customer','membership','supplier') NOT NULL DEFAULT 'customer',
+  `status` enum('guest','customer','admin','supplier','kasir','dapur') NOT NULL DEFAULT 'customer',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `is_premium` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -44,7 +44,8 @@ CREATE TABLE `akun` (
 INSERT INTO `akun` (`id_akun`, `email`, `username`, `password`, `status`, `created_at`, `is_premium`) VALUES
 (1, 'daffaumayans2007@gmail.com', 'daffa', '$2y$10$/HD0piiYU2UVhICBXCgLFuQeSeOX/T7YvnTTQ.8fS8osQO7q1kK26', 'customer', '2025-12-15 07:12:21', 1),
 (2, 'daffa7@gmail.com', 'daffa2', '$2y$10$kOQw4lG6eS4mIqAss8.PceDBtmplLJ9p8qeyZmFwz7Zydn/H.rH1a', 'customer', '2025-12-15 07:44:16', 1),
-(3, 'sina@gmail.com', 'sina', '$2y$10$ygvq7mqerasbZ.GsWTQ94u3zbwyrOc6kSxqq.b6Z6PtlMdw2O3Sua', 'customer', '2025-12-15 09:23:50', 0);
+(3, 'sina@gmail.com', 'sina', '$2y$10$ygvq7mqerasbZ.GsWTQ94u3zbwyrOc6kSxqq.b6Z6PtlMdw2O3Sua', 'customer', '2025-12-15 09:23:50', 0),
+(4, '', 'guest1', '', 'guest', '2025-12-16 09:44:47', 0);
 
 -- --------------------------------------------------------
 
@@ -69,7 +70,47 @@ CREATE TABLE `detail_transaksi` (
 
 INSERT INTO `detail_transaksi` (`id_detail`, `id_transaksi`, `id_menu`, `no_meja`, `jumlah`, `catatan`, `harga_satuan`, `subtotal`) VALUES
 (19, 22, 27, 4, 3, 'halo', 15000.00, 45000.00),
-(20, 22, 2, 4, 4, '', 45000.00, 180000.00);
+(20, 22, 2, 4, 4, '', 45000.00, 180000.00),
+(21, 23, 27, 7, 5, 'halo', 15000.00, 75000.00),
+(22, 23, 5, 7, 3, '', 120000.00, 360000.00),
+(23, 24, 27, 4, 4, 'wokeh\n', 15000.00, 60000.00),
+(24, 24, 5, 4, 2, '', 120000.00, 240000.00),
+(25, 25, 27, 5, 5, 'p\n', 15000.00, 75000.00),
+(26, 25, 5, 5, 2, '', 120000.00, 240000.00),
+(27, 26, 27, 5, 4, 'looping', 15000.00, 60000.00),
+(28, 26, 5, 5, 2, '', 120000.00, 240000.00),
+(29, 27, 25, 5, 3, 'test', 25000.00, 75000.00),
+(30, 27, 27, 5, 3, '', 15000.00, 45000.00),
+(31, 28, 27, 2, 4, '3', 15000.00, 60000.00),
+(32, 28, 5, 2, 3, '', 120000.00, 360000.00);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `kelola_pesanan`
+--
+
+CREATE TABLE `kelola_pesanan` (
+  `id_pesanan` int(11) NOT NULL,
+  `id_transaksi` int(11) NOT NULL,
+  `no_meja` int(11) NOT NULL,
+  `item` text NOT NULL,
+  `waktu` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` enum('PENDING','COOKING','READY','SERVED') NOT NULL DEFAULT 'PENDING'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `kelola_pesanan`
+--
+
+INSERT INTO `kelola_pesanan` (`id_pesanan`, `id_transaksi`, `no_meja`, `item`, `waktu`, `status`) VALUES
+(1, 23, 7, '5x Kelp Burger, 3x Krabby Patty', '2025-12-16 00:00:45', 'SERVED'),
+(2, 24, 4, '4x Kelp Burger, 2x Krabby Patty', '2025-12-16 08:56:57', 'PENDING'),
+(3, 25, 5, '5x Kelp Burger, 2x Krabby Patty', '2025-12-16 09:01:56', 'PENDING'),
+(4, 25, 5, '5x Kelp Burger, 2x Krabby Patty', '2025-12-16 09:02:22', 'PENDING'),
+(5, 26, 5, '4x Kelp Burger, 2x Krabby Patty', '2025-12-16 09:03:35', 'PENDING'),
+(6, 27, 5, '3x Double Krabby Patty, 3x Kelp Burger', '2025-12-16 09:12:38', 'COOKING'),
+(7, 28, 2, '4x Kelp Burger, 3x Krabby Patty', '2025-12-16 09:45:49', 'COOKING');
 
 -- --------------------------------------------------------
 
@@ -136,7 +177,13 @@ CREATE TABLE `transaksi` (
 --
 
 INSERT INTO `transaksi` (`id_transaksi`, `id_akun`, `username`, `kode_transaksi`, `total_belanja`, `status_transaksi`, `created_at`) VALUES
-(22, 1, 'daffa', 'TRX-20251215-235959', 225000.00, 'SELESAI', '2025-12-15 22:59:59');
+(22, 1, 'daffa', 'TRX-20251215-235959', 225000.00, 'SELESAI', '2025-12-15 22:59:59'),
+(23, 1, 'daffa', 'TRX-20251216-010045', 435000.00, 'SELESAI', '2025-12-16 00:00:45'),
+(24, 3, 'sina', 'TRX-20251216-095657', 300000.00, 'SELESAI', '2025-12-16 08:56:57'),
+(25, 2, 'daffa2', 'TRX-20251216-100156', 315000.00, 'SELESAI', '2025-12-16 09:01:56'),
+(26, 2, 'daffa2', 'TRX-20251216-100335', 300000.00, 'PENDING', '2025-12-16 09:03:35'),
+(27, 2, 'daffa2', 'TRX-20251216-101137', 120000.00, 'SELESAI', '2025-12-16 09:11:37'),
+(28, 4, 'guest1', 'TRX-20251216-104525', 420000.00, 'SELESAI', '2025-12-16 09:45:25');
 
 --
 -- Indexes for dumped tables
@@ -157,6 +204,13 @@ ALTER TABLE `detail_transaksi`
   ADD PRIMARY KEY (`id_detail`),
   ADD KEY `fk_detail_transaksi` (`id_transaksi`),
   ADD KEY `fk_detail_menu` (`id_menu`);
+
+--
+-- Indexes for table `kelola_pesanan`
+--
+ALTER TABLE `kelola_pesanan`
+  ADD PRIMARY KEY (`id_pesanan`),
+  ADD KEY `fk_kelola_transaksi` (`id_transaksi`);
 
 --
 -- Indexes for table `menu`
@@ -181,13 +235,19 @@ ALTER TABLE `transaksi`
 -- AUTO_INCREMENT for table `akun`
 --
 ALTER TABLE `akun`
-  MODIFY `id_akun` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_akun` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
-  MODIFY `id_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+
+--
+-- AUTO_INCREMENT for table `kelola_pesanan`
+--
+ALTER TABLE `kelola_pesanan`
+  MODIFY `id_pesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `menu`
@@ -199,7 +259,7 @@ ALTER TABLE `menu`
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- Constraints for dumped tables
@@ -211,6 +271,12 @@ ALTER TABLE `transaksi`
 ALTER TABLE `detail_transaksi`
   ADD CONSTRAINT `fk_detail_menu` FOREIGN KEY (`id_menu`) REFERENCES `menu` (`id_menu`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_detail_transaksi` FOREIGN KEY (`id_transaksi`) REFERENCES `transaksi` (`id_transaksi`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `kelola_pesanan`
+--
+ALTER TABLE `kelola_pesanan`
+  ADD CONSTRAINT `fk_kelola_transaksi` FOREIGN KEY (`id_transaksi`) REFERENCES `transaksi` (`id_transaksi`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `transaksi`
