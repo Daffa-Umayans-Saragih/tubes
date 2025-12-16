@@ -1,3 +1,266 @@
+/* =========================
+   RESET & GLOBAL
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+body {
+  background: #f4f6f8;
+  color: #222;
+  min-height: 100vh;
+}
+
+/* =========================
+   HEADER
+========================= */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: linear-gradient(135deg, #1B7EA1, #145f7a);
+  color: white;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.header h2 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* =========================
+   CATEGORY NAV (SCROLL)
+========================= */
+.category-nav {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  overflow-x: auto;
+  background: #ffffff;
+  border-bottom: 1px solid #ddd;
+}
+
+.category-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.category-nav button {
+  flex-shrink: 0;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: #e6e6e6;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.category-nav button:hover {
+  background: #d4d4d4;
+}
+
+.category-nav .active {
+  background: #F9C80E;
+  color: #000;
+  font-weight: 600;
+}
+
+/* =========================
+   MENU GRID
+========================= */
+.menu-container {
+  padding: 14px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.menu-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  transition: transform 0.15s ease;
+}
+
+.menu-card:hover {
+  transform: translateY(-3px);
+}
+
+.menu-card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 8px;
+}
+
+.menu-card h3 {
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.menu-card p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.add-btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: #F9C80E;
+  color: #000;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.add-btn:hover {
+  background: #e6b800;
+}
+
+/* =========================
+   ORDER BOTTOM SHEET
+========================= */
+.order-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.2);
+  padding: 16px;
+  z-index: 20;
+  animation: slideUp 0.3s ease;
+}
+
+.hidden {
+  display: none;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.order-content h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.order-content textarea {
+  width: 100%;
+  height: 70px;
+  resize: none;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding: 8px;
+  margin-bottom: 12px;
+}
+
+.qty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 10px;
+}
+
+.qty button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  background: #1B7EA1;
+  color: white;
+  cursor: pointer;
+}
+
+.qty span {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+#total {
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.order-btn {
+  width: 100%;
+  padding: 14px;
+  background: #1B7EA1;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.order-btn:hover {
+  background: #155f7c;
+}
+
+/* =========================
+   TABLE NUMBER MODAL
+========================= */
+.table-modal {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 20px 20px 0 0;
+  padding: 20px;
+  z-index: 30;
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.25);
+  animation: slideUp 0.3s ease;
+}
+
+.table-box h3 {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.table-box input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 14px;
+  font-size: 14px;
+}
+
+.table-box button {
+  width: 100%;
+  padding: 12px;
+  background: #1B7EA1;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
 /* ====== GLOBAL ====== */
 body {
   margin: 0;

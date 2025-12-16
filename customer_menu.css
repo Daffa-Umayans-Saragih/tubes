@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="UTF-8">
-<title>Krusty Krab | Order</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
 /* =========================
-   RESET
+   RESET & GLOBAL
 ========================= */
 * {
   margin: 0;
@@ -18,6 +10,8 @@
 
 body {
   background: #f4f6f8;
+  color: #222;
+  min-height: 100vh;
 }
 
 /* =========================
@@ -26,79 +20,373 @@ body {
 .top-bar {
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 100;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 16px;
-  background: linear-gradient(135deg, #1B7EA1, #145f7a);
+  padding: 14px 20px;
+  background: linear-gradient(135deg, #1B7EA1 0%, #145f7a);
   color: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
-.upgrade-link {
-  background: rgba(255,255,255,0.2);
-  padding: 8px 16px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 600;
-  text-decoration: none;
-  color: white;
-}
-
-.profile {
+.top-right {
   display: flex;
   align-items: center;
-  gap: 8px;
-}
-
-.profile img {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-}
-
-/* =========================
-   HEADER
-========================= */
-.header {
-  text-align: center;
-  padding: 16px;
-  background: white;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-/* =========================
-   MENU
-========================= */
-.menu-container {
-  padding: 14px;
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
   gap: 14px;
 }
 
+.upgrade {
+  background: rgba(255,255,255,0.2);
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.upgrade:hover {
+  background: rgba(255,255,255,0.3);
+}
+
+.logout-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.logout-btn:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   CATEGORY NAV (SCROLL)
+========================= */
+.category-nav {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  overflow-x: auto;
+  background: #ffffff;
+  border-bottom: 1px solid #ddd;
+}
+
+.category-nav::-webkit-scrollbar {
+  display: none;
+}
+
+.category-nav button {
+  flex-shrink: 0;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: #e6e6e6;
+  color: #333;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.category-nav button:hover {
+  background: #d4d4d4;
+}
+
+.category-nav .active {
+  background: #F9C80E;
+  color: #000;
+  font-weight: 600;
+}
+
+/* =========================
+   MENU GRID
+========================= */
+.menu-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px 20px 100px 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+@media (max-width: 768px) {
+  .menu-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 .menu-card {
-  background: white;
+  background: #ffffff;
   border-radius: 16px;
-  padding: 10px;
+  padding: 12px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  transition: transform 0.15s ease;
+}
+
+.menu-card:hover {
+  transform: translateY(-3px);
 }
 
 .menu-card img {
   width: 100%;
-  height: 120px;
+  height: 130px;
   object-fit: cover;
   border-radius: 12px;
+  margin-bottom: 8px;
+}
+
+.menu-card h3 {
+  font-size: 16px;
+  margin: 8px 0 4px 0;
+}
+
+.menu-card p {
+  font-size: 14px;
+  color: #555;
+  margin: 4px 0;
 }
 
 .add-btn {
   width: 100%;
   padding: 10px;
   margin-top: 8px;
-  border: none;
   border-radius: 10px;
+  border: none;
   background: #F9C80E;
+  color: #000;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.add-btn:hover {
+  background: #e6b800;
+}
+
+/* =========================
+   ORDER BOTTOM SHEET
+========================= */
+.order-sheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+  padding: 20px;
+  z-index: 150;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+
+.order-sheet.show {
+  transform: translateY(0);
+}
+
+.order-sheet.hidden {
+  transform: translateY(100%);
+}
+
+.order-content h3 {
+  margin-top: 0;
+  color: #1B7EA1;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.order-content textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin: 10px 0;
+  font-family: Arial, sans-serif;
+  resize: none;
+  min-height: 60px;
+}
+
+.qty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  margin: 15px 0;
+}
+
+.qty button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: #F9C80E;
+  border-radius: 50%;
+  font-size: 20px;
   font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.qty button:hover {
+  background: #e6b800;
+}
+
+.qty span {
+  font-size: 20px;
+  font-weight: bold;
+  min-width: 30px;
+  text-align: center;
+}
+
+#total {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  color: #1B7EA1;
+  margin-bottom: 10px;
+}
+
+.order-btn {
+  width: 100%;
+  padding: 14px;
+  background: #1B7EA1;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.2s ease;
+}
+
+.order-btn:hover {
+  background: #155f7c;
+}
+
+/* =========================
+   TABLE NUMBER MODAL
+   (MUNCUL OTOMATIS)
+========================= */
+.table-modal {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 20px 20px 0 0;
+  padding: 20px;
+  z-index: 30;
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.25);
+  animation: slideUp 0.3s ease;
+}
+
+
+
+.table-box h3 {
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+
+@keyframes pop {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.table-box h3 {
+  margin-top: 0;
+  color: #1B7EA1;
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+
+.table-box input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 14px;
+  font-size: 14px;
+}
+
+.table-box input:focus {
+  border-color: #1B7EA1;
+  outline: none;
+}
+
+.table-box button {
+  width: 100%;
+  padding: 12px;
+  background: #1B7EA1;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.table-box button:hover {
+  background: #e6b800;
+}
+
+/* =========================
+   CHECKOUT BAR
+========================= */
+.checkout-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #1B7EA1;
+  color: white;
+  padding: 15px 20px;
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+}
+
+.checkout-bar.show {
+  display: flex;
+}
+
+.checkout-info {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.checkout-info small {
+  opacity: 0.9;
+}
+
+.checkout-btn {
+  background: #F9C80E;
+  color: #1B7EA1;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.checkout-btn:hover {
+  background: #e6b800;
 }
 
 /* =========================
@@ -111,30 +399,69 @@ body {
   display: none;
   justify-content: center;
   align-items: center;
-  z-index: 100;
+  z-index: 200;
 }
 
 .card {
+  width: 340px;
   background: white;
-  width: 320px;
   border-radius: 20px;
-  padding: 20px;
+  overflow: hidden;
+  animation: pop 0.25s ease;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  font-weight: 600;
+  border-bottom: 1px solid #eee;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.card-body {
+  padding: 18px;
   text-align: center;
 }
 
-.card h3 {
-  margin-bottom: 10px;
+.price {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
 }
 
-.card button {
+.features {
+  list-style: none;
+  text-align: left;
+  margin-bottom: 16px;
+  padding: 0;
+}
+
+.features li {
+  margin-bottom: 6px;
+}
+
+.subscribe-btn {
   width: 100%;
   padding: 14px;
-  margin-top: 14px;
-  border: none;
   border-radius: 12px;
+  border: none;
   background: #1B7EA1;
   color: white;
   font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.subscribe-btn:hover {
+  background: #155f7c;
 }
 
 .qr {
@@ -142,85 +469,208 @@ body {
   display: none;
 }
 
+.qr img {
+  width: 180px;
+}
+
 .success {
+  margin-top: 12px;
   color: green;
   font-weight: bold;
-  margin-top: 12px;
   display: none;
 }
-</style>
-</head>
-
-<body>
-
-<!-- TOP BAR -->
-<div class="top-bar">
-  <a href="#" class="upgrade-link" onclick="openMembership()">Upgrade ke Premium</a>
-
-  <div class="profile">
-    <img src="https://i.pravatar.cc/50">
-    <span>User</span>
-  </div>
-</div>
-
-<!-- HEADER -->
-<div class="header">
-  <h2>🦀 Krusty Krab</h2>
-</div>
-
-<!-- MENU -->
-<div class="menu-container">
-  <div class="menu-card">
-    <img src="https://picsum.photos/200/120">
-    <h3>Krabby Patty</h3>
-    <p>Rp12.000</p>
-    <button class="add-btn">Add</button>
-  </div>
-</div>
-
-<!-- MEMBERSHIP -->
-<div class="membership" id="membership">
-  <div class="card">
-    <h3>Premium Membership</h3>
-    <p>Akses fitur eksklusif</p>
-
-    <button onclick="subscribe()">Berlangganan Sekarang</button>
-
-    <div class="qr" id="qr">
-      <p>Scan QR untuk bayar</p>
-      <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=ewallet.html">
-    </div>
-
-    <div class="success" id="success">
-      Pembayaran telah berhasil
-    </div>
-  </div>
-</div>
-
-<script>
-function openMembership() {
-  document.getElementById('membership').style.display = 'flex';
+/* =========================
+   TABLE MODAL VISIBILITY FIX
+========================= */
+.table-modal {
+  display: block;
 }
 
-function subscribe() {
-  if (localStorage.getItem('premium') === 'true') {
-    alert('Akun anda sudah premium!');
-    return;
-  }
-
-  document.getElementById('qr').style.display = 'block';
-
-  const payTab = window.open('ewallet.html', '_blank');
-
-  const check = setInterval(() => {
-    if (localStorage.getItem('payment_done') === 'true') {
-      clearInterval(check);
-      localStorage.setItem('premium', 'true');
-      document.getElementById('success').style.display = 'block';
-    }
-  }, 500);
+.table-modal.hidden {
+  display: none;
 }
-</script>
+.menu-card {
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s;
+}
 
-</body>
-</html>
+.menu-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.menu-card img {
+  height: 200px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.card-body {
+  padding: 14px;
+}
+
+.menu-section {
+  margin-bottom: 5px; /* jarak antar kategori */
+}
+
+
+.menu-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 4px;
+}
+/* =========================
+   CHECKOUT ITEM STYLE
+========================= */
+.cart-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+.cart-row span {
+  flex: 1;
+  line-height: 1.3;
+}
+
+/* INPUT JUMLAH */
+.cart-qty {
+  width: 44px;
+  height: 28px;
+  text-align: center;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  font-size: 13px;
+  font-weight: 600;
+  background: #ffffff;
+  color: #1B7EA1;
+}
+
+/* HILANGKAN PANAH INPUT */
+.cart-qty::-webkit-inner-spin-button,
+.cart-qty::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.cart-qty {
+  appearance: textfield;
+}
+
+/* BUTTON HAPUS */
+.cart-remove {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 80, 80, 0.2);
+  color: #ff4d4d;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.cart-remove:hover {
+  background: #ff4d4d;
+  color: white;
+  transform: scale(1.1);
+}
+.menu-search {
+  border: none;
+  outline: none;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  width: 150px;
+}
+
+.menu-search::placeholder {
+  color: #999;
+}
+.cart-note {
+  width: 90px;
+  height: 28px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  padding: 0 6px;
+  font-size: 12px;
+  background: #f1f1f1;
+}
+/* =========================
+   PAYMENT POPUP
+========================= */
+.payment-popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.payment-popup.show {
+  display: flex;
+}
+
+.payment-card {
+  background: #fff;
+  width: 320px;
+  padding: 20px;
+  border-radius: 16px;
+  text-align: center;
+  animation: pop 0.25s ease;
+}
+
+.payment-card h3 {
+  margin-bottom: 16px;
+  color: #1B7EA1;
+}
+
+.payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pay-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.pay-btn img {
+  width: 32px;
+  height: 32px;
+}
+
+.pay-btn.qris {
+  background: #f5f5f5;
+}
+
+.pay-btn.dana {
+  background: #008fe5;
+  color: white;
+}
+
+.close-pay {
+  margin-top: 14px;
+  background: none;
+  border: none;
+  color: #999;
+  cursor: pointer;
+}

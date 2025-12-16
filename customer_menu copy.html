@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Krusty Krab | Order</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="customer_menu.css">
+<style>
+body { font-family: Arial, sans-serif; margin:0; background:#f4f6f8; }
+.top-bar {
+  position: sticky; top:0; z-index:100;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:14px 20px;
+  background: linear-gradient(135deg, #1B7EA1 0%, #145f7a);
+  color:white;
+}
+.top-right { display:flex; align-items:center; gap:14px; }
+.upgrade {
+  background: rgba(255,255,255,0.2);
+  padding:6px 14px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:600;
+  color:white;
+  text-decoration:none;
+  cursor:pointer;
+}
+.category-nav {
+  display:flex; gap:8px; padding:12px;
+  background:white; border-bottom:1px solid #ddd;
+}
+.category-nav button {
+  border:none; padding:8px 14px;
+  border-radius:999px;
+  background:#e6e6e6; cursor:pointer;
+}
+.category-nav .active {
+  background:#F9C80E; font-weight:600;
+}
+.menu-container {
+  max-width:900px; margin:auto; padding:20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(240px,1fr));
+  gap:16px;
+}
+.menu-card {
+  background:white;
+  border-radius:16px;
+  padding:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+.menu-card img {
+  width:100%; height:130px;
+  object-fit:cover;
+  border-radius:12px;
+}
+.add-btn {
+  width:100%;
+  padding:10px;
+  margin-top:8px;
+  border-radius:10px;
+  border:none;
+  background:#F9C80E;
+  font-weight:600;
+  cursor:pointer;
+}
+.membership {
+  position: fixed; inset:0;
+  background: rgba(0,0,0,0.45);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  z-index:200;
+}
+.card {
+  width:340px;
+  background:white;
+  border-radius:20px;
+  overflow:hidden;
+  animation:pop 0.25s ease;
+}
+@keyframes pop {
+  from { transform: scale(0.9); opacity:0; }
+  to { transform: scale(1); opacity:1; }
+}
+.card-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 16px;
+  font-weight:600;
+  border-bottom:1px solid #eee;
+}
+.close-btn {
+  background:none; border:none;
+  font-size:18px; cursor:pointer;
+}
+.card-body {
+  padding:18px;
+  text-align:center;
+}
+.price { font-size:16px; font-weight:600; margin-bottom:12px; }
+.features { list-style:none; text-align:left; margin-bottom:16px; }
+.features li { margin-bottom:6px; }
+.subscribe-btn {
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:none;
+  background:#1B7EA1;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+.qr { margin-top:16px; display:none; }
+.qr img { width:180px; }
+.success {
+  margin-top:12px;
+  color:green;
+  font-weight:bold;
+  display:none;
+}
+.logout-btn {
+  background:none;
+  border:none;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+}
+.logout-btn:hover {
+  text-decoration: underline;
+}
+
+
+</style>
+</head>
+
+<body>
+
+<header class="header">
+  <h2>🦀 Krusty Krab</h2>
+</header>
+
+
+<div class="top-bar">
+  <div>☰ Menu</div>
+  <div class="top-right">
+    <span id="profileName">👤 Guest</span>
+    <a href="#" class="upgrade" id="btnUpgrade">Upgrade ke Premium</a>
+    <!-- ✅ TAMBAHAN -->
+    <button class="logout-btn" onclick="logout()">Log Out</button>
+  </div>
+</div>
+
+
+<div class="category-nav">
+  <button class="active">Main Course</button>
+  <button>Appetizer</button>
+  <button>Drinks</button>
+  <button>Dessert</button>
+</div>
+
+<div class="menu-container">
+  <div class="menu-card">
+    <img src="https://picsum.photos/300/200">
+    <h3>Krabby Patty</h3>
+    <p>Rp12.000</p>
+    <button class="add-btn">Add</button>
+  </div>
+  <div class="menu-card">
+    <img src="https://picsum.photos/301/200">
+    <h3>Double Krabby Patty</h3>
+    <p>Rp18.000</p>
+    <button class="add-btn">Add</button>
+  </div>
+</div>
+
+<div class="cart-preview" id="cartPreview">
+  <h4>🧾 Pesanan Anda</h4>
+  <div id="cartItems"></div>
+</div>
+
+
+<!-- ORDER BOTTOM SHEET -->
+<div class="order-sheet hidden">
+  <div class="order-content">
+    <h3 id="orderName"></h3>
+
+    <textarea placeholder="Notes untuk dapur"></textarea>
+
+    <div class="qty">
+      <button id="minus">-</button>
+      <span id="qty">1</span>
+      <button id="plus">+</button>
+    </div>
+
+    <p id="total">Total: Rp0</p>
+    <button class="order-btn">Add Order</button>
+  </div>
+</div>
+
+<!-- TABLE NUMBER MODAL -->
+<div class="table-modal" id="tableModal">
+  <div class="table-box">
+    <h3>Dine In</h3>
+    <input
+      type="number"
+      id="tableInput"
+      placeholder="Enter your table number"
+      min="1"
+      required
+    >
+    <button id="saveTable" >Save</button>
+  </div>
+</div>
+
+<script>
+/* =========================
+   TABLE NUMBER LOGIC
+========================= */
+let tableNumber = null;
+
+const tableModal = document.getElementById('tableModal');
+const tableInput = document.getElementById('tableInput');
+const saveTableBtn = document.getElementById('saveTable');
+
+
+
+/* SIMPAN NOMOR MEJA */
+saveTableBtn.addEventListener('click', () => {
+  const value = parseInt(tableInput.value);
+
+  // VALIDASI
+  if (!tableInput.value || isNaN(value) || value <= 0) {
+    alert('Masukkan nomor meja yang valid!');
+    tableInput.focus();
+    return;
+  }
+
+  // SIMPAN
+  tableNumber = value;
+
+  // TUTUP MODAL
+  tableModal.classList.add('hidden');
+
+  // OPTIONAL DEBUG
+  console.log('Table saved:', tableNumber);
+});
+
+/* BONUS: TEKAN ENTER = SAVE */
+tableInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    saveTableBtn.click();
+  }
+});
+</script>
+
+
+
+<div class="membership" id="membership">
+  <div class="card">
+    <div class="card-header">
+      <span>Premium Membership</span>
+      <button class="close-btn" onclick="closeMembership()">✕</button>
+    </div>
+    <div class="card-body">
+      <p class="price">Rp 99.000 / bulan</p>
+      <ul class="features">
+        <li>✓ Akses khusus member</li>
+        <li>✓ Simulasi order eksklusif</li>
+        <li>✓ Prioritas layanan</li>
+      </ul>
+      <button class="subscribe-btn" id="subscribeBtn">Berlangganan Sekarang</button>
+      <div class="qr" id="qr">
+        <p>Scan QR untuk pembayaran</p>
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=ewallet">
+      </div>
+      <div class="success" id="success">Pembayaran telah berhasil</div>
+    </div>
+  </div>
+</div>
+
+<script>
+let user = JSON.parse(localStorage.getItem('kk_currentUser'));
+const profileName = document.getElementById('profileName');
+const btnUpgrade = document.getElementById('btnUpgrade');
+const membershipOverlay = document.getElementById('membership');
+const subscribeBtn = document.getElementById('subscribeBtn');
+const qr = document.getElementById('qr');
+const success = document.getElementById('success');
+
+/* 🔀 JIKA USER PREMIUM, PINDAHKAN */
+if(user && user.is_premium){
+  window.location.href = 'membership_menu.html';
+}
+
+/* TAMPILKAN NAMA USER */
+if(user){
+  profileName.textContent = "👤 " + user.username;
+} else {
+  btnUpgrade.style.display = 'none';
+}
+
+btnUpgrade.addEventListener('click', e=>{
+  e.preventDefault();
+  membershipOverlay.style.display='flex';
+});
+
+function closeMembership(){
+  membershipOverlay.style.display='none';
+}
+
+subscribeBtn.addEventListener('click', ()=>{
+  qr.style.display='block';
+
+  const payTab = window.open('','_blank');
+  payTab.document.write(`
+    <html>
+    <head><title>DANA</title></head>
+    <body style="background:#008FE5;font-family:Arial">
+      <div style="background:white;width:300px;margin:100px auto;padding:20px;border-radius:20px;text-align:center">
+        <h3>DANA</h3>
+        <p>Pembayaran Premium</p>
+        <p><b>Rp 99.000</b></p>
+        <button style="width:100%;padding:14px;background:#008FE5;color:white;border:none;border-radius:12px"
+          onclick="localStorage.setItem('payment_done','true');window.close()">
+          Konfirmasi Pembayaran
+        </button>
+      </div>
+    </body>
+    </html>
+  `);
+
+  const check = setInterval(()=>{
+    if(localStorage.getItem('payment_done')==='true'){
+      clearInterval(check);
+      localStorage.removeItem('payment_done');
+
+      fetch('pay_premium.php',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({username:user.username})
+      })
+      .then(res=>res.json())
+      .then(data=>{
+        if(data.status==='success'){
+          // SET FLAG PREMIUM
+          user.is_premium = true;
+          localStorage.setItem('kk_currentUser', JSON.stringify(user));
+
+          // PINDAHKAN KE MENU PREMIUM
+          window.location.href = 'membership_menu.html';
+        }
+      });
+    }
+  },500);
+});
+
+/* === LOG OUT === */
+function logout(){
+  localStorage.removeItem('kk_currentUser');
+  localStorage.removeItem('kk_guest');
+  window.location.href = 'login.html';
+}
+
+</script>
+
+</body>
+</html>

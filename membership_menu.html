@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Krusty Krab | Premium Order</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="style.css">
+<style>
+body { font-family: Arial, sans-serif; margin:0; background:#f4f6f8; }
+.top-bar {
+  position: sticky; top:0; z-index:100;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:14px 20px;
+  background: linear-gradient(135deg, #1B7EA1 0%, #145f7a);
+  color:white;
+}
+.top-right { display:flex; align-items:center; gap:14px; }
+.category-nav {
+  display:flex; gap:8px; padding:12px;
+  background:white; border-bottom:1px solid #ddd;
+}
+.category-nav button {
+  border:none; padding:8px 14px;
+  border-radius:999px;
+  background:#e6e6e6; cursor:pointer;
+}
+.category-nav .active {
+  background:#F9C80E; font-weight:600;
+}
+.menu-container {
+  max-width:900px; margin:auto; padding:20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(240px,1fr));
+  gap:16px;
+}
+.menu-card {
+  background:white;
+  border-radius:16px;
+  padding:12px;
+  box-shadow:0 4px 10px rgba(0,0,0,0.08);
+}
+.menu-card img {
+  width:100%; height:130px;
+  object-fit:cover;
+  border-radius:12px;
+}
+.add-btn {
+  width:100%;
+  padding:10px;
+  margin-top:8px;
+  border-radius:10px;
+  border:none;
+  background:#F9C80E;
+  font-weight:600;
+  cursor:pointer;
+}
+.premium-badge {
+  background:#F9C80E;
+  color:#000;
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
+}
+
+/* 🔴 TAMBAHAN: LOG OUT */
+.logout-btn {
+  background:none;
+  border:none;
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+}
+.logout-btn:hover {
+  text-decoration: underline;
+}
+</style>
+</head>
+
+<body>
+
+<div class="top-bar">
+  <div>👑 Premium Menu</div>
+  <div class="top-right">
+    <span id="profileName">👤</span>
+    <span class="premium-badge">PREMIUM</span>
+    <!-- ✅ TOMBOL LOG OUT -->
+    <button class="logout-btn" onclick="logout()">Log Out</button>
+  </div>
+</div>
+
+<div class="category-nav">
+  <button class="active">Main Course</button>
+  <button>Appetizer</button>
+  <button>Drinks</button>
+  <button>Dessert</button>
+</div>
+
+<div class="menu-container">
+  <div class="menu-card">
+    <img src="https://picsum.photos/302/200">
+    <h3>⭐ Special Krabby Patty</h3>
+    <p>Eksklusif Premium</p>
+    <p><b>Rp25.000</b></p>
+    <button class="add-btn">Add</button>
+  </div>
+
+  <div class="menu-card">
+    <img src="https://picsum.photos/303/200">
+    <h3>⭐ Golden Krabby Patty</h3>
+    <p>Menu khusus member</p>
+    <p><b>Rp30.000</b></p>
+    <button class="add-btn">Add</button>
+  </div>
+</div>
+
+<script>
+let user = JSON.parse(localStorage.getItem('kk_currentUser'));
+
+/* 🔐 PROTEKSI HALAMAN */
+if(!user || !user.is_premium){
+  window.location.href = 'customer_menu.html';
+}
+
+/* TAMPILKAN NAMA USER */
+document.getElementById('profileName').textContent = "👤 " + user.username;
+
+/* 🔴 LOG OUT */
+function logout(){
+  localStorage.removeItem('kk_currentUser');
+  localStorage.removeItem('kk_guest');
+  window.location.href = 'login.html';
+}
+</script>
+
+</body>
+</html>

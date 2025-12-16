@@ -34,12 +34,11 @@
     Belum punya akun? <a href="register.html">Sign Up</a>
   </p>
   <p class="guest-link">
-    Tidak mau buat akun? <a href="#" id="guestBtn">Continue as a Guest</a>
+    Tidak mau buat akun? <a href="customer_menu.html" id="guestBtn">Continue as a Guest</a>
   </p>
 </div>
 
 <script>
-/* === LOGIN USER === */
 document.getElementById('btnLogin').addEventListener('click', function () {
 
   const username = document.getElementById('login-username').value.trim();
@@ -53,10 +52,7 @@ document.getElementById('btnLogin').addEventListener('click', function () {
   fetch('login.php', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      username: username,
-      password: password
-    })
+    body: JSON.stringify({ username, password })
   })
   .then(res => res.json())
   .then(data => {
@@ -65,30 +61,13 @@ document.getElementById('btnLogin').addEventListener('click', function () {
       return;
     }
 
-    /* SIMPAN USER */
-    localStorage.setItem(
-      'kk_currentUser',
-      JSON.stringify({
-        username: data.username,
-        role: data.role,
-        is_premium: data.is_premium
-      })
-    );
-
-    /* REDIRECT */
-    window.location.href = 'customer_menu.html';
+    // ⬅️ TIDAK SIMPAN APA-APA
+    window.location.href = 'customer_menu.php';
   })
   .catch(() => alert('Server error'));
 });
-
-/* === GUEST MODE === */
-document.getElementById('guestBtn').addEventListener('click', function (e) {
-  e.preventDefault();
-  localStorage.removeItem('kk_currentUser');
-  localStorage.setItem('kk_guest', 'true');
-  window.location.href = 'customer_menu.html';
-});
 </script>
+
 
 </body>
 </html>
