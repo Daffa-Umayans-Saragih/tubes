@@ -30,7 +30,8 @@ function confirmDANA() {
   })
   .then(res => res.json())
   .then(() => {
-    window.location.href = 'customer_menu.php?paid=dana';
+    window.location.href = 'wait.php';
+  
   });
 }
 </script>

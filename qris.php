@@ -32,7 +32,8 @@ function confirmQRIS() {
   })
   .then(res => res.json())
   .then(() => {
-    window.location.href = 'customer_menu.php?paid=qris';
+   window.location.href = 'wait.php';
+
   });
 }
 </script>
