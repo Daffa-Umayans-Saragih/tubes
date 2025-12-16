@@ -789,100 +789,93 @@ $result = mysqli_query($conn, $sql);
                 <th>Tanggal</th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td><strong>C001</strong></td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <div class="user-avatar me-2" style="background: linear-gradient(135deg, #667eea, #764ba2);">SB</div>
-                    SpongeBob SquarePants
-                  </div>
-                </td>
-                <td>spongebob@bikinibottom.com</td>
-                <td>0812-3456-7890</td>
-                <td><span class="badge status-membership"><i class="bi bi-star-fill me-1"></i>Membership</span></td>
-                <td>
-                  <small class="d-block">Krabby Patty (15x)</small>
-                  <small class="d-block">Double Krabby (8x)</small>
-                  <small class="d-block">Kelp Shake (5x)</small>
-                </td>
-                <td><strong>Rp856.000</strong></td>
-                <td>10 Jan 2024</td>
-              </tr>
-              <tr>
-                <td><strong>C002</strong></td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <div class="user-avatar me-2" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">PS</div>
-                    Patrick Star
-                  </div>
-                </td>
-                <td>patrick@bikinibottom.com</td>
-                <td>0823-4567-8901</td>
-                <td><span class="badge status-member"><i class="bi bi-person-fill me-1"></i>Member Biasa</span></td>
-                <td>
-                  <small class="d-block">Double Krabby (10x)</small>
-                  <small class="d-block">Kelp Fries (5x)</small>
-                </td>
-                <td><strong>Rp420.000</strong></td>
-                <td>15 Feb 2024</td>
-              </tr>
-              <tr>
-                <td><strong>C003</strong></td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <div class="user-avatar me-2" style="background: linear-gradient(135deg, #3498db, #2980b9);">ST</div>
-                    Squidward Tentacles
-                  </div>
-                </td>
-                <td>squidward@bikinibottom.com</td>
-                <td>0834-5678-9012</td>
-                <td><span class="badge status-guest"><i class="bi bi-person me-1"></i>Guest</span></td>
-                <td>
-                  <small class="d-block">Krabby Patty (5x)</small>
-                  <small class="d-block">Kelp Shake (3x)</small>
-                </td>
-                <td><strong>Rp180.000</strong></td>
-                <td>20 Mar 2024</td>
-              </tr>
-              <tr>
-                <td><strong>C004</strong></td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <div class="user-avatar me-2" style="background: linear-gradient(135deg, #f39c12, #e67e22);">SC</div>
-                    Sandy Cheeks
-                  </div>
-                </td>
-                <td>sandy@bikinibottom.com</td>
-                <td>0845-6789-0123</td>
-                <td><span class="badge status-membership"><i class="bi bi-star-fill me-1"></i>Membership</span></td>
-                <td>
-                  <small class="d-block">Krabby Patty (20x)</small>
-                  <small class="d-block">Double Krabby (7x)</small>
-                  <small class="d-block">Kelp Fries (5x)</small>
-                </td>
-                <td><strong>Rp1.120.000</strong></td>
-                <td>05 Apr 2024</td>
-              </tr>
-              <tr>
-                <td><strong>C005</strong></td>
-                <td>
-                  <div class="d-flex align-items-center">
-                    <div class="user-avatar me-2" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">MK</div>
-                    Mr. Krabs
-                  </div>
-                </td>
-                <td>krabs@krustykrab.com</td>
-                <td>0856-7890-1234</td>
-                <td><span class="badge status-member"><i class="bi bi-person-fill me-1"></i>Member Biasa</span></td>
-                <td>
-                  <small class="d-block">Krabby Patty (3x)</small>
-                  <small class="d-block">Kelp Shake (2x)</small>
-                </td>
-                <td><strong>Rp95.000</strong></td>
-                <td>01 Jan 2024</td>
-              </tr>
-            </tbody>
+<?php
+require 'koneksi.php';
+
+$sql = "
+SELECT 
+  a.id_akun,
+  a.username,
+  a.email,
+  a.status,
+  a.is_premium,
+  a.created_at,
+  COALESCE(SUM(t.total_belanja),0) AS total_belanja
+FROM akun a
+LEFT JOIN transaksi t 
+  ON a.id_akun = t.id_akun 
+  AND t.status_transaksi = 'SELESAI'
+WHERE a.status IN ('guest','customer')
+GROUP BY a.id_akun
+ORDER BY total_belanja DESC
+";
+
+$result = mysqli_query($conn, $sql);
+
+while ($row = mysqli_fetch_assoc($result)):
+
+  // STATUS BADGE
+  if ($row['status'] === 'guest') {
+    $badge = '<span class="badge status-guest"><i class="bi bi-person me-1"></i>Guest</span>';
+  } elseif ($row['is_premium'] == 1) {
+    $badge = '<span class="badge status-membership"><i class="bi bi-star-fill me-1"></i>Membership</span>';
+  } else {
+    $badge = '<span class="badge status-member"><i class="bi bi-person-fill me-1"></i>Member Biasa</span>';
+  }
+
+  // INISIAL AVATAR
+  $inisial = strtoupper(substr($row['username'],0,2));
+?>
+
+<tr>
+  <td><strong>C<?= str_pad($row['id_akun'], 3, '0', STR_PAD_LEFT) ?></strong></td>
+
+  <td>
+    <div class="d-flex align-items-center">
+      <div class="user-avatar me-2" style="background: linear-gradient(135deg,#3498db,#2980b9);">
+        <?= $inisial ?>
+      </div>
+      <?= htmlspecialchars($row['username']) ?>
+    </div>
+  </td>
+
+  <td><?= $row['email'] ?: '-' ?></td>
+  <td>-</td>
+
+  <td><?= $badge ?></td>
+
+  <td>
+    <?php
+    $qItem = "
+      SELECT m.nama_menu, SUM(d.jumlah) qty
+      FROM detail_transaksi d
+      JOIN transaksi t ON d.id_transaksi = t.id_transaksi
+      JOIN menu m ON d.id_menu = m.id_menu
+      WHERE t.id_akun = {$row['id_akun']}
+        AND t.status_transaksi = 'SELESAI'
+      GROUP BY m.nama_menu
+      LIMIT 3
+    ";
+    $items = mysqli_query($conn, $qItem);
+
+    if (mysqli_num_rows($items) == 0) {
+      echo '<small class="text-muted">Belum ada pesanan</small>';
+    } else {
+      while ($i = mysqli_fetch_assoc($items)) {
+        echo '<small class="d-block">'
+            . htmlspecialchars($i['nama_menu'])
+            . ' (' . $i['qty'] . 'x)</small>';
+      }
+    }
+    ?>
+  </td>
+
+  <td><strong>Rp<?= number_format($row['total_belanja'],0,',','.') ?></strong></td>
+  <td><?= date('d M Y', strtotime($row['created_at'])) ?></td>
+</tr>
+
+<?php endwhile; ?>
+
           </table>
         </div>
       </div>
