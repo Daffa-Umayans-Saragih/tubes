@@ -313,11 +313,29 @@ const CURRENT_USER = {
       onkeyup="searchMenu(this.value)"
     >
   </div>
+  <!-- =========================
+     RESTO INFO CARD
+========================= -->
+
 
   <div class="top-right">
     <span id="profileName">👤 Guest</span>
     <a href="#" class="upgrade" id="btnUpgrade">Upgrade ke Premium</a>
     <button class="logout-btn" onclick="logout()">Log Out</button>
+  </div>
+</div>
+
+<div class="resto-card">
+  <div class="resto-card-inner">
+
+    <div class="resto-title">🦀 Krusty Krab</div>
+    <div class="resto-time">Open • 08.00 – 22.00</div>
+
+    <div class="table-box-display">
+      Table Number:
+      <span id="tableBoxNumber">-</span>
+    </div>
+
   </div>
 </div>
 
@@ -328,6 +346,7 @@ const CURRENT_USER = {
   <button id="btn-drink" onclick="filterMenu('DRINK', this)">Drinks</button>
   <button id="btn-dessert" onclick="filterMenu('DESSERT', this)">Dessert</button>
 </div>
+
 
 <div id="menuContainer">
   <?php include 'get_menu.php'; ?>
@@ -388,6 +407,8 @@ saveTableBtn.addEventListener('click', () => {
 
   tableNumber = value;
   isTableSaved = true; // 🔥 INI KUNCINYA
+  document.getElementById('tableBoxNumber').textContent = tableNumber;
+
 
   tableModal.classList.add('hidden');
 

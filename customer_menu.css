@@ -288,6 +288,7 @@ body {
 
 
 
+
 .table-box h3 {
   font-size: 18px;
   margin-bottom: 12px;
@@ -482,9 +483,26 @@ body {
 /* =========================
    TABLE MODAL VISIBILITY FIX
 ========================= */
+/* =========================
+   TABLE NUMBER MODAL
+   (MUNCUL OTOMATIS)
+========================= */
 .table-modal {
-  display: block;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 20px 20px 0 0;
+  padding: 20px;
+  z-index: 300;
 }
+
+.table-modal.hidden {
+  display: none;
+}
+
+
 
 .table-modal.hidden {
   display: none;
@@ -515,11 +533,6 @@ body {
 }
 
 
-.menu-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 4px;
-}
 /* =========================
    CHECKOUT ITEM STYLE
 ========================= */
@@ -673,4 +686,83 @@ body {
   border: none;
   color: #999;
   cursor: pointer;
+}
+/* =========================
+   RESTO INFO CARD
+========================= */
+/* =========================
+   RESTO CARD (FULL WIDTH)
+========================= */
+.resto-card {
+  width: 100%;
+  background: #ffffff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  margin-bottom: 10px;
+   background-color: #145f7a;
+}
+
+.resto-card-inner {
+  max-width: 900px;
+  margin: auto;
+  padding: 22px 20px;
+  text-align: center;
+ 
+}
+
+.resto-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0F2C3F;
+}
+
+.resto-time {
+  margin-top: 4px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.table-box-display {
+  margin: 16px auto 0;
+  padding: 14px;
+  max-width: 320px;
+  border-radius: 14px;
+  background: #F0E4C3;
+  border: 2px solid #C97A40;
+  font-size: 18px;
+  font-weight: 700;
+  color: #C97A40;
+}
+
+.table-box-display span {
+  color: #FF8E72;
+  font-size: 20px;
+}
+
+
+.resto-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0F2C3F;
+}
+
+.resto-time {
+  margin-top: 4px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.table-box-display {
+  margin-top: 18px;
+  padding: 14px;
+  border-radius: 14px;
+  background: #F0E4C3;
+  border: 2px solid #C97A40;
+  font-size: 18px;
+  font-weight: 700;
+  color: #C97A40;
+}
+
+.table-box-display span {
+  color: #FF8E72;
+  font-size: 20px;
 }
