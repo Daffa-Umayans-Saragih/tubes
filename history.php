@@ -14,7 +14,6 @@ if ($_SESSION['role'] === 'GUEST') {
 $id_akun = $_SESSION['id_akun'];
 $username = $_SESSION['username'];
 
-// Ambil semua transaksi user
 $sql = "
   SELECT 
     t.id_transaksi,
@@ -22,6 +21,7 @@ $sql = "
     t.total_belanja,
     t.id_akun,
     t.username,
+    t.created_at,
     kp.no_meja,
     kp.status
   FROM transaksi t
@@ -29,6 +29,7 @@ $sql = "
   WHERE t.id_akun = ?
   ORDER BY t.id_transaksi DESC
 ";
+
 $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "i", $id_akun);
 mysqli_stmt_execute($stmt);
@@ -47,7 +48,7 @@ while ($row = mysqli_fetch_assoc($res)) {
   <style>
     body { font-family: Arial; margin: 20px; background: #f9f9f9; }
     .struk { border: 1px solid #ccc; padding: 15px; margin-bottom: 25px; width: 500px; background: #fff; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
-    .title { font-weight: bold; font-size: 18px; margin-bottom: 10px; }
+    .title { font-weight: bold; font-size: 18px; margin-bottom: 5px; }
     table { width: 100%; border-collapse: collapse; }
     th, td { padding: 4px; text-align: left; }
     .total-row { font-weight: bold; border-top: 1px solid #aaa; margin-top: 8px; padding-top: 5px; }
@@ -63,6 +64,7 @@ while ($row = mysqli_fetch_assoc($res)) {
       border-radius: 6px;
       font-weight: bold;
     }
+    small { color: #888; font-size: 12px; }
   </style>
 </head>
 <body>
@@ -71,7 +73,10 @@ while ($row = mysqli_fetch_assoc($res)) {
 
 <?php foreach ($transaksis as $trx): ?>
   <div class="struk">
-    <div class="title">Kode: <?= $trx['kode_transaksi'] ?> | Akun: <?= $trx['id_akun'] ?> (<?= $trx['username'] ?>)</div>
+    <div class="title">
+      Kode: <?= $trx['kode_transaksi'] ?> | Akun: <?= $trx['id_akun'] ?> (<?= $trx['username'] ?>)<br>
+      <small>Tanggal: <?= date('d M Y H:i', strtotime($trx['created_at'])) ?></small>
+    </div>
 
     <table>
       <tr><th>Menu</th><th>Catatan</th><th>Subtotal</th></tr>

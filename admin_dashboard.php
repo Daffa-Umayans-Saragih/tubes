@@ -1166,6 +1166,9 @@ while ($row = mysqli_fetch_assoc($result)):
   document.getElementById('logoutBtn').addEventListener('click', () => {
     if (confirm('Yakin ingin logout?')) {
       alert('Logout berhasil!');
+      
+      // Redirect to login page or perform logout action
+      window.location.href = 'logout.php';
     }
   });
 </script>

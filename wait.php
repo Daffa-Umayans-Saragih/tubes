@@ -14,6 +14,7 @@ $sql = "
     t.total_belanja,
     t.status_transaksi,
     t.username,
+    t.created_at,
     kp.no_meja,
     kp.status AS status_pesanan,
     t.id_transaksi
@@ -67,6 +68,7 @@ if (!$data = mysqli_fetch_assoc($res)) {
 
   <p><strong>ID Transaksi:</strong> <?= $data['kode_transaksi'] ?></p>
   <p><strong>Username:</strong> <?= $data['username'] ?></p>
+  <p><strong>Tanggal:</strong> <?= date('d M Y H:i', strtotime($data['created_at'])) ?></p>
   <p><strong>No Meja:</strong> <?= $data['no_meja'] ?></p>
 
   <table>
