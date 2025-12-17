@@ -20,6 +20,10 @@ $isPremium= $_SESSION['is_premium'];
 <title>Krusty Krab | Order</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="customer_menu.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Alata&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+</style>
 </head>
 
 <body>
@@ -66,10 +70,10 @@ const CURRENT_USER = {
 <div class="resto-card">
   <div class="resto-card-inner">
 
-    <div class="resto-title">🦀 Krusty Krab — Bikini Bottom 🦀</div>
-    <div class="resto-time">Open • 08.00 – 22.00</div>
+    <div class="resto-title" style="font-family: 'Alata'"> 🦀 Krusty Krab — Bikini Bottom 🦀</div>
+    <div class="resto-time" style="font-family: 'Comic Neue'">Open • 08.00 – 22.00</div>
 
-    <div class="table-box-display">
+    <div class="table-box-display" style="font-family: 'Alata'">
       Table Number:
       <span id="tableBoxNumber">-</span>
     </div>
@@ -110,7 +114,7 @@ const CURRENT_USER = {
 <!-- TABLE NUMBER MODAL -->
 <div class="table-modal" id="tableModal">
   <div class="table-box">
-    <h3>Dine In</h3>
+    <h3>🍽️ Dine In</h3>
     <input
       type="number"
       id="tableInput"
