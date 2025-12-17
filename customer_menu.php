@@ -328,7 +328,7 @@ const CURRENT_USER = {
 <div class="resto-card">
   <div class="resto-card-inner">
 
-    <div class="resto-title">🦀 Krusty Krab</div>
+    <div class="resto-title">🦀 Krusty Krab — Bikini Bottom 🦀</div>
     <div class="resto-time">Open • 08.00 – 22.00</div>
 
     <div class="table-box-display">
