@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 16, 2025 at 10:48 AM
+-- Generation Time: Dec 17, 2025 at 06:51 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,7 +45,10 @@ INSERT INTO `akun` (`id_akun`, `email`, `username`, `password`, `status`, `creat
 (1, 'daffaumayans2007@gmail.com', 'daffa', '$2y$10$/HD0piiYU2UVhICBXCgLFuQeSeOX/T7YvnTTQ.8fS8osQO7q1kK26', 'customer', '2025-12-15 07:12:21', 1),
 (2, 'daffa7@gmail.com', 'daffa2', '$2y$10$kOQw4lG6eS4mIqAss8.PceDBtmplLJ9p8qeyZmFwz7Zydn/H.rH1a', 'customer', '2025-12-15 07:44:16', 1),
 (3, 'sina@gmail.com', 'sina', '$2y$10$ygvq7mqerasbZ.GsWTQ94u3zbwyrOc6kSxqq.b6Z6PtlMdw2O3Sua', 'customer', '2025-12-15 09:23:50', 0),
-(4, '', 'guest1', '', 'guest', '2025-12-16 09:44:47', 0);
+(4, '', 'guest1', '', 'guest', '2025-12-16 09:44:47', 0),
+(5, 'admin123@gmail.com', 'admin', '$2y$10$GydVlCmgmCTd7/i2.z2HOezGoTSVrL87rl3VSdPQS4Ccm0RNFUvvW', 'admin', '2025-12-16 10:43:21', 0),
+(6, 'nadin@gmail.com', 'nadin', '$2y$10$P7o2SzlfpS6SA4lV/InPF.9U.xdJDfh6B65zmdAio4hxSxUGFIIg2', 'customer', '2025-12-16 12:06:46', 0),
+(11, 'guest2@guest.local', 'guest2', '', 'guest', '2025-12-16 14:24:52', 0);
 
 -- --------------------------------------------------------
 
@@ -82,7 +85,26 @@ INSERT INTO `detail_transaksi` (`id_detail`, `id_transaksi`, `id_menu`, `no_meja
 (29, 27, 25, 5, 3, 'test', 25000.00, 75000.00),
 (30, 27, 27, 5, 3, '', 15000.00, 45000.00),
 (31, 28, 27, 2, 4, '3', 15000.00, 60000.00),
-(32, 28, 5, 2, 3, '', 120000.00, 360000.00);
+(32, 28, 5, 2, 3, '', 120000.00, 360000.00),
+(33, 29, 5, 5, 4, 'halo', 120000.00, 480000.00),
+(34, 29, 27, 5, 3, '', 15000.00, 45000.00),
+(35, 30, 36, 23, 5, '', 9500.00, 47500.00),
+(36, 30, 34, 23, 6, '', 9000.00, 54000.00),
+(37, 31, 5, 6, 2, '', 120000.00, 240000.00),
+(38, 32, 27, 6, 1, '', 15000.00, 15000.00),
+(39, 33, 27, 12, 3, '', 15000.00, 45000.00),
+(40, 33, 5, 12, 2, '', 120000.00, 240000.00),
+(41, 34, 27, 7, 1, 'haloo', 15000.00, 15000.00),
+(42, 34, 5, 7, 6, '', 120000.00, 720000.00),
+(43, 35, 27, 123, 4, 'diameter jari jari roti nya harus 18', 15000.00, 60000.00),
+(44, 35, 5, 123, 12, 'acar nya harus 2', 120000.00, 1440000.00),
+(45, 36, 27, 100, 5, '', 15000.00, 75000.00),
+(46, 36, 30, 100, 1, 'halo', 7000.00, 7000.00),
+(47, 37, 27, 45, 3, '', 15000.00, 45000.00),
+(48, 38, 27, 5, 5, 'halooo', 15000.00, 75000.00),
+(49, 38, 26, 5, 2, '', 32000.00, 64000.00),
+(50, 39, 27, 5, 3, '', 15000.00, 45000.00),
+(51, 39, 26, 5, 3, 'haloo', 32000.00, 96000.00);
 
 -- --------------------------------------------------------
 
@@ -105,12 +127,20 @@ CREATE TABLE `kelola_pesanan` (
 
 INSERT INTO `kelola_pesanan` (`id_pesanan`, `id_transaksi`, `no_meja`, `item`, `waktu`, `status`) VALUES
 (1, 23, 7, '5x Kelp Burger, 3x Krabby Patty', '2025-12-16 00:00:45', 'SERVED'),
-(2, 24, 4, '4x Kelp Burger, 2x Krabby Patty', '2025-12-16 08:56:57', 'PENDING'),
-(3, 25, 5, '5x Kelp Burger, 2x Krabby Patty', '2025-12-16 09:01:56', 'PENDING'),
+(2, 24, 4, '4x Kelp Burger, 2x Krabby Patty', '2025-12-16 08:56:57', 'SERVED'),
+(3, 25, 5, '5x Kelp Burger, 2x Krabby Patty', '2025-12-16 09:01:56', 'SERVED'),
 (4, 25, 5, '5x Kelp Burger, 2x Krabby Patty', '2025-12-16 09:02:22', 'PENDING'),
-(5, 26, 5, '4x Kelp Burger, 2x Krabby Patty', '2025-12-16 09:03:35', 'PENDING'),
-(6, 27, 5, '3x Double Krabby Patty, 3x Kelp Burger', '2025-12-16 09:12:38', 'COOKING'),
-(7, 28, 2, '4x Kelp Burger, 3x Krabby Patty', '2025-12-16 09:45:49', 'COOKING');
+(5, 26, 5, '4x Kelp Burger, 2x Krabby Patty', '2025-12-16 09:03:35', 'COOKING'),
+(6, 27, 5, '3x Double Krabby Patty, 3x Kelp Burger', '2025-12-16 09:12:38', 'SERVED'),
+(7, 28, 2, '4x Kelp Burger, 3x Krabby Patty', '2025-12-16 09:45:49', 'COOKING'),
+(8, 29, 5, '4x Krabby Patty, 3x Kelp Burger', '2025-12-16 11:03:21', 'SERVED'),
+(9, 33, 12, '3x Kelp Burger, 2x Krabby Patty', '2025-12-16 13:34:07', 'SERVED'),
+(10, 34, 7, '1x Kelp Burger, 6x Krabby Patty', '2025-12-16 13:44:38', 'SERVED'),
+(11, 35, 123, '4x Kelp Burger, 12x Krabby Patty', '2025-12-16 13:50:26', 'COOKING'),
+(12, 36, 100, '5x Kelp Burger, 1x Coral Bits', '2025-12-16 13:52:37', 'COOKING'),
+(13, 37, 45, '3x Kelp Burger', '2025-12-16 14:25:05', 'COOKING'),
+(14, 38, 5, '5x Kelp Burger, 2x Triple Krabby Supreme', '2025-12-17 05:27:21', 'COOKING'),
+(15, 39, 5, '3x Kelp Burger, 3x Triple Krabby Supreme', '2025-12-17 05:40:41', 'COOKING');
 
 -- --------------------------------------------------------
 
@@ -183,7 +213,18 @@ INSERT INTO `transaksi` (`id_transaksi`, `id_akun`, `username`, `kode_transaksi`
 (25, 2, 'daffa2', 'TRX-20251216-100156', 315000.00, 'SELESAI', '2025-12-16 09:01:56'),
 (26, 2, 'daffa2', 'TRX-20251216-100335', 300000.00, 'PENDING', '2025-12-16 09:03:35'),
 (27, 2, 'daffa2', 'TRX-20251216-101137', 120000.00, 'SELESAI', '2025-12-16 09:11:37'),
-(28, 4, 'guest1', 'TRX-20251216-104525', 420000.00, 'SELESAI', '2025-12-16 09:45:25');
+(28, 4, 'guest1', 'TRX-20251216-104525', 420000.00, 'SELESAI', '2025-12-16 09:45:25'),
+(29, 3, 'sina', 'TRX-20251216-120319', 525000.00, 'SELESAI', '2025-12-16 11:03:19'),
+(30, 6, 'nadin', 'TRX-20251216-130800', 101500.00, 'PENDING', '2025-12-16 12:08:00'),
+(31, 5, 'admin', 'TRX-20251216-132002', 240000.00, 'PENDING', '2025-12-16 12:20:02'),
+(32, 5, 'admin', 'TRX-20251216-132026', 15000.00, 'PENDING', '2025-12-16 12:20:26'),
+(33, 5, 'admin', 'TRX-20251216-143254', 285000.00, 'SELESAI', '2025-12-16 13:32:54'),
+(34, 5, 'admin', 'TRX-20251216-144435', 735000.00, 'SELESAI', '2025-12-16 13:44:35'),
+(35, 5, 'admin', 'TRX-20251216-145021', 1500000.00, 'SELESAI', '2025-12-16 13:50:21'),
+(36, 3, 'sina', 'TRX-20251216-145236', 82000.00, 'SELESAI', '2025-12-16 13:52:36'),
+(37, 11, 'guest2', 'TRX-20251216-152503', 45000.00, 'SELESAI', '2025-12-16 14:25:03'),
+(38, 3, 'sina', 'TRX-20251217-062719', 139000.00, 'SELESAI', '2025-12-17 05:27:19'),
+(39, 3, 'sina', 'TRX-20251217-064039', 141000.00, 'SELESAI', '2025-12-17 05:40:39');
 
 --
 -- Indexes for dumped tables
@@ -235,19 +276,19 @@ ALTER TABLE `transaksi`
 -- AUTO_INCREMENT for table `akun`
 --
 ALTER TABLE `akun`
-  MODIFY `id_akun` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_akun` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `detail_transaksi`
 --
 ALTER TABLE `detail_transaksi`
-  MODIFY `id_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `kelola_pesanan`
 --
 ALTER TABLE `kelola_pesanan`
-  MODIFY `id_pesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_pesanan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `menu`
@@ -259,7 +300,7 @@ ALTER TABLE `menu`
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id_transaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- Constraints for dumped tables
