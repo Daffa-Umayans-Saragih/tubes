@@ -35,6 +35,7 @@ body {
   text-decoration:none;
   cursor:pointer;
 }
+
 .category-nav {
   display:flex; gap:8px; padding:12px;
   background:white; border-bottom:1px solid #ddd;
@@ -47,16 +48,6 @@ body {
   padding: 12px;
   background: white;
   border-bottom: 1px solid #ddd;
-
-}
-.category-nav button {
-  border: none;
-  padding: 8px 16px;
-  border-radius: 999px;
-  background: #e6e6e6;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.25s ease;
 }
 
 .category-nav button.active {
@@ -67,23 +58,6 @@ body {
   transform: translateY(-1px);
 }
 
-.menu-container {
-  max-width:900px; margin:auto; padding:20px 20px 100px 20px;
-  display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(240px,1fr));
-  gap:16px;
-}
-.menu-card {
-  background:white;
-  border-radius:16px;
-  padding:12px;
-  box-shadow:0 4px 10px rgba(0,0,0,0.08);
-}
-.menu-card img {
-  width:100%; height:130px;
-  object-fit:cover;
-  border-radius:12px;
-}
 .add-btn {
   background: linear-gradient(
     135deg,
@@ -164,25 +138,6 @@ body {
 }
 
 /* ORDER BOTTOM SHEET */
-.order-sheet {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: white;
-  border-radius: 20px 20px 0 0;
-  box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
-  padding: 20px;
-  z-index: 150;
-  transform: translateY(100%);
-  transition: transform 0.3s ease;
-}
-.order-sheet.show {
-  transform: translateY(0);
-}
-.order-sheet.hidden {
-  transform: translateY(100%);
-}
 .order-content h3 {
   margin-top: 0;
   color: #1B7EA1;
@@ -242,22 +197,6 @@ body {
 
 
 /* CHECKOUT BAR */
-.checkout-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #1B7EA1;
-  color: white;
-  padding: 15px 20px;
-  display: none;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 100;
-}
-.checkout-bar.show {
-  display: flex;
-}
 .checkout-info {
   display: flex;
   flex-direction: column;
@@ -331,14 +270,6 @@ body {
 /* =========================
    CATEGORY NAV (SCROLL)
 ========================= */
-.category-nav {
-  display: flex;
-  gap: 10px;
-  padding: 12px;
-  overflow-x: auto;
-  background: #ffffff;
-  border-bottom: 1px solid #ddd;
-}
 
 .category-nav::-webkit-scrollbar {
   display: none;
@@ -384,21 +315,10 @@ body {
   }
 }
 
-.menu-card {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-  transition: transform 0.15s ease;
-}
-
-.menu-card:hover {
-  transform: translateY(-3px);
-}
 
 .menu-card img {
   width: 100%;
-  height: 130px;
+  height: 160px;
   object-fit: cover;
   border-radius: 12px;
   margin-bottom: 8px;
@@ -746,33 +666,11 @@ body {
   font-weight: bold;
   display: none;
 }
-/* =========================
-   TABLE MODAL VISIBILITY FIX
-========================= */
-/* =========================
-   TABLE NUMBER MODAL
-   (MUNCUL OTOMATIS)
-========================= */
-.table-modal {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: #ffffff;
-  border-radius: 20px 20px 0 0;
-  padding: 20px;
-  z-index: 300;
-}
 
 .table-modal.hidden {
   display: none;
 }
 
-
-
-.table-modal.hidden {
-  display: none;
-}
 .menu-card {
   background: rgba(255,255,255,0.92);
   border-radius: 20px;
@@ -787,12 +685,6 @@ body {
   transform: translateY(-6px) scale(1.02);
   box-shadow:
     0 14px 30px rgba(0,0,0,0.18);
-}
-
-.menu-card img {
-  height: 200px;
-  object-fit: cover;
-  width: 100%;
 }
 
 .card-body {
