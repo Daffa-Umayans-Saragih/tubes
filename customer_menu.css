@@ -15,9 +15,9 @@ html {
 body {
   background: linear-gradient(
     180deg,
-    #1B7EA1 0%,     /* laut */
-    #7ED6DF 40%,    /* air dangkal */
-    #F0E4C3 100%    /* pasir */
+    #1B7EA1 0%,    
+    #7ED6DF 40%,    
+    #F0E4C3 100%   
   );
   color: #222;
   min-height: 100vh;
@@ -28,7 +28,7 @@ body {
   display:flex; gap:8px; padding:12px;
   background:white; border-bottom:1px solid #ddd;
   position: sticky;
-  top: 60px; /* SESUAI tinggi top-bar */
+  top: 60px; 
   z-index: 99;
 
   display: flex;
@@ -172,8 +172,6 @@ body {
   margin-top: 10px;
 }
 
-
-
 /* CHECKOUT BAR */
 .checkout-info {
   display: flex;
@@ -240,7 +238,6 @@ body {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-
 
 .menu-card img {
   width: 100%;
