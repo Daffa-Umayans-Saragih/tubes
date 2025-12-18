@@ -40,7 +40,7 @@ if (!$data = mysqli_fetch_assoc($res)) {
 <html>
 <head>
   <title>Struk Pemesanan</title>
-
+  <link rel="stylesheet" href="wait.css">
 </head>
 <body>
 
