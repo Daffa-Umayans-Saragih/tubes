@@ -7,19 +7,16 @@ if (!isset($_SESSION['id_akun'])) {
 }
 
 if ($_SESSION['role'] === 'GUEST') {
-  echo "Guest tidak dapat melihat riwayat.";
-  exit;
+  die('Guest tidak dapat melihat riwayat.');
 }
 
 $id_akun = $_SESSION['id_akun'];
-$username = $_SESSION['username'];
 
 $sql = "
   SELECT 
     t.id_transaksi,
     t.kode_transaksi,
     t.total_belanja,
-    t.id_akun,
     t.username,
     t.created_at,
     kp.no_meja,
@@ -34,32 +31,44 @@ $stmt = mysqli_prepare($conn, $sql);
 mysqli_stmt_bind_param($stmt, "i", $id_akun);
 mysqli_stmt_execute($stmt);
 $res = mysqli_stmt_get_result($stmt);
-
-$transaksis = [];
-while ($row = mysqli_fetch_assoc($res)) {
-  $transaksis[] = $row;
-}
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+  <meta charset="UTF-8">
   <title>Riwayat Pesanan</title>
-  <link rel="stylesheet" type="text/css" href="history.css">
+  <link rel="stylesheet" href="history.css">
 </head>
 <body>
 
 <h2>Riwayat Pesanan</h2>
 
-<?php foreach ($transaksis as $trx): ?>
+<?php while ($trx = mysqli_fetch_assoc($res)): ?>
+
+  <?php
+    // NORMALISASI STATUS (INI PENTING)
+    $statusRaw   = trim($trx['status']);          // dari DB
+    $statusClass = strtolower($statusRaw);        // cooking / served / selesai
+  ?>
+
   <div class="struk">
+
     <div class="title">
-      Kode: <?= $trx['kode_transaksi'] ?> | Akun: <?= $trx['id_akun'] ?> (<?= $trx['username'] ?>)<br>
-      <small>Tanggal: <?= date('d M Y H:i', strtotime($trx['created_at'])) ?></small>
+      Kode: <?= htmlspecialchars($trx['kode_transaksi']) ?>
+      <br>
+      <small>
+        Tanggal: <?= date('d M Y H:i', strtotime($trx['created_at'])) ?>
+      </small>
     </div>
 
     <table>
-      <tr><th>Menu</th><th>Catatan</th><th>Subtotal</th></tr>
+      <tr>
+        <th>Menu</th>
+        <th>Catatan</th>
+        <th>Subtotal</th>
+      </tr>
+
       <?php
       $q = "
         SELECT dt.jumlah, m.nama_menu, dt.catatan, dt.subtotal
@@ -75,22 +84,40 @@ while ($row = mysqli_fetch_assoc($res)) {
       while ($item = mysqli_fetch_assoc($resDtl)):
       ?>
         <tr>
-          <td><?= $item['jumlah'] . "x " . $item['nama_menu'] ?></td>
-          <td><?= $item['catatan'] ?? '-' ?></td>
+          <td><?= $item['jumlah'] ?>x <?= htmlspecialchars($item['nama_menu']) ?></td>
+          <td><?= $item['catatan'] ? htmlspecialchars($item['catatan']) : '-' ?></td>
           <td>Rp<?= number_format($item['subtotal'], 0, ',', '.') ?></td>
         </tr>
       <?php endwhile; ?>
     </table>
 
-    <div class="total-row">No Meja: <?= $trx['no_meja'] ?> | Total: Rp<?= number_format($trx['total_belanja'], 0, ',', '.') ?></div>
-    <div class="status">Status: <?= strtoupper($trx['status']) ?></div>
+    <div class="total-row">
+      No Meja: <?= $trx['no_meja'] ?> |
+      Total: Rp<?= number_format($trx['total_belanja'], 0, ',', '.') ?>
+    </div>
+
+    <!-- STATUS (SATU-SATUNYA, JANGAN DUPLIKAT) -->
+    <div class="status <?= $statusClass ?>">
+      <?php if ($statusClass === 'cooking'): ?>🍳<?php endif; ?>
+      <?php if ($statusClass === 'served'): ?>🍽️<?php endif; ?>
+      <?php if ($statusClass === 'selesai'): ?>✅<?php endif; ?>
+      <?= strtoupper($statusRaw) ?>
+    </div>
+
   </div>
-<?php endforeach; ?>
+
+<?php endwhile; ?>
 
 <div class="buttons">
   <a href="wait.php">🔙 Kembali ke Struk</a>
   <a href="customer_menu.php">🛒 Pesan Lagi</a>
 </div>
+
+<!-- JS (opsional, aman dihapus) -->
+<script>
+   // future use: auto refresh status
+   // setInterval(() => location.reload(), 15000);
+</script>
 
 </body>
 </html>

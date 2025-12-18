@@ -1,20 +1,155 @@
+/* RESET & BASE */
+* {
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
 
-    body { font-family: Arial; margin: 20px; background: #f9f9f9; }
-    .struk { border: 1px solid #ccc; padding: 15px; margin-bottom: 25px; width: 500px; background: #fff; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
-    .title { font-weight: bold; font-size: 18px; margin-bottom: 5px; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 4px; text-align: left; }
-    .total-row { font-weight: bold; border-top: 1px solid #aaa; margin-top: 8px; padding-top: 5px; }
-    .status { margin-top: 8px; font-style: italic; color: green; }
-    .buttons { margin-top: 30px; }
-    .buttons a {
-      display: inline-block;
-      padding: 10px 18px;
-      margin-right: 10px;
-      background: #008FE5;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 6px;
-      font-weight: bold;
-    }
-    small { color: #888; font-size: 12px; }
+body {
+  background: #f4f6f9;
+  margin: 0;
+  padding: 30px;
+  color: #333;
+}
+
+/* TITLE */
+h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2c3e50;
+}
+
+/* STRUK CARD */
+.struk {
+  background: #ffffff;
+  max-width: 750px;
+  margin: 0 auto 25px;
+  padding: 20px 22px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border-left: 6px solid #3498db;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.struk:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+
+/* HEADER STRUK */
+.struk .title {
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #2c3e50;
+}
+
+.struk .title small {
+  display: block;
+  margin-top: 4px;
+  color: #7f8c8d;
+  font-weight: normal;
+}
+
+/* TABLE */
+.struk table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.struk th {
+  text-align: left;
+  background: #f0f3f6;
+  padding: 10px;
+  font-size: 14px;
+  color: #34495e;
+}
+
+.struk td {
+  padding: 10px;
+  border-bottom: 1px dashed #e0e0e0;
+  font-size: 14px;
+}
+
+.struk td:last-child,
+.struk th:last-child {
+  text-align: right;
+}
+
+/* TOTAL */
+.total-row {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 2px solid #ecf0f1;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+/* STATUS BASE */
+.status {
+  margin-top: 8px;
+  font-weight: bold;
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+/* STATUS VARIANT */
+.status.cooking {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.status.served {
+  background: #d4edda;
+  color: #155724;
+}
+
+.status.selesai {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+/* BUTTONS */
+.buttons {
+  max-width: 750px;
+  margin: 40px auto 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.buttons a {
+  text-decoration: none;
+  padding: 12px 18px;
+  border-radius: 10px;
+  font-weight: 600;
+  background: #3498db;
+  color: #fff;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.buttons a:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  body {
+    padding: 15px;
+  }
+
+  .struk {
+    padding: 16px;
+  }
+
+  .buttons {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .buttons a {
+    text-align: center;
+  }
+}
