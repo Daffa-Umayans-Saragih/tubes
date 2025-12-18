@@ -24,18 +24,6 @@ body {
   font-family: "Segoe UI", Arial, sans-serif;
 }
 
-.top-right { display:flex; align-items:center; gap:14px; }
-.upgrade {
-  background: rgba(255,255,255,0.2);
-  padding:6px 14px;
-  border-radius:999px;
-  font-size:13px;
-  font-weight:600;
-  color:white;
-  text-decoration:none;
-  cursor:pointer;
-}
-
 .category-nav {
   display:flex; gap:8px; padding:12px;
   background:white; border-bottom:1px solid #ddd;
@@ -126,16 +114,6 @@ body {
   font-weight:bold;
   display:none;
 }
-.logout-btn {
-  background:none;
-  border:none;
-  color:white;
-  font-weight:600;
-  cursor:pointer;
-}
-.logout-btn:hover {
-  text-decoration: underline;
-}
 
 /* ORDER BOTTOM SHEET */
 .order-content h3 {
@@ -213,58 +191,6 @@ body {
   border-radius: 10px;
   font-weight: bold;
   cursor: pointer;
-}
-
-/* =========================
-   TOP BAR
-========================= */
-.top-bar {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 20px;
-  background: linear-gradient(135deg, #145f7a, #1B7EA1);
-  color: white;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-  border-bottom: 4px solid #F9C80E;
-}
-
-.top-right {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.upgrade {
-  background: rgba(255,255,255,0.2);
-  padding: 6px 14px;
-  border-radius: 999px;
-  font-size: 13px;
-  font-weight: 600;
-  color: white;
-  text-decoration: none;
-  cursor: pointer;
-  transition: 0.2s ease;
-}
-
-.upgrade:hover {
-  background: rgba(255,255,255,0.3);
-}
-
-.logout-btn {
-  background: none;
-  border: none;
-  color: white;
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 13px;
-}
-
-.logout-btn:hover {
-  text-decoration: underline;
 }
 
 /* =========================
@@ -758,14 +684,6 @@ body {
   color: white;
   transform: scale(1.1);
 }
-.menu-search {
-  border: none;
-  outline: none;
-  padding: 6px 12px;
-  border-radius: 999px;
-  font-size: 13px;
-  width: 150px;
-}
 
 .menu-search::placeholder {
   color: #999;
@@ -913,3 +831,4 @@ body {
   color: #145f7a;
   font-size: 20px;
 }
+

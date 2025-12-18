@@ -20,6 +20,7 @@ $isPremium= $_SESSION['is_premium'];
 <title>Krusty Krab | Order</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="customer_menu.css">
+<link rel="stylesheet" href="customer_menu_topbar.css">
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Alata&display=swap');
   @import url('https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
@@ -45,23 +46,12 @@ const CURRENT_USER = {
 
 
 <div class="top-bar">
-  <div style="display:flex;align-items:center;gap:10px">
-    ☰
-    <input 
-      type="text"
-      id="searchInput"
-      placeholder="Cari menu..."
-      class="menu-search"
-      onkeyup="searchMenu(this.value)"
-    >
+  <div class="top-left">
+    <input type="text" class="menu-search" placeholder="Cari menu...">
   </div>
-  <!-- =========================
-     RESTO INFO CARD
-========================= -->
-
 
   <div class="top-right">
-    <span id="profileName">👤 Guest</span>
+    <div class="user-badge" id="profileName">👤 Guest</div>
     <a href="#" class="upgrade" id="btnUpgrade">Upgrade ke Premium</a>
     <button class="logout-btn" onclick="logout()">Log Out</button>
   </div>
@@ -222,7 +212,6 @@ if (user.isLogin) {
     "👤 Guest";
 }
 
-
 // ELEMENTS
 const profileName = document.getElementById('profileName');
 const btnUpgrade = document.getElementById('btnUpgrade');
@@ -266,7 +255,6 @@ function openOrder(name, price) {
   sheet.classList.add('show');
 }
 
-
 document.getElementById('plus').onclick = () => {
   currentItem.qty++;
   document.getElementById('qty').textContent = currentItem.qty;
@@ -309,8 +297,6 @@ function addToCart() {
   document.getElementById('orderSheet').classList.remove('show');
   updateCheckoutBar();
 }
-
-
 
 // =====================
 // CHECKOUT BAR
@@ -371,7 +357,6 @@ function updateCheckoutBar() {
   document.getElementById('checkoutBar').classList.add('show');
 }
 
-
 function updateQty(name, newQty) {
   const qty = parseInt(newQty);
 
@@ -393,8 +378,6 @@ function removeItem(name) {
   delete cart[name];
   updateCheckoutBar();
 }
-
-
 
 // =====================
 // TABLE NUMBER
@@ -438,7 +421,6 @@ function checkout() {
       return;
     }
 
-    // 🔥 INI KUNCI UTAMA
     currentTransaksi = data.id_transaksi;
     currentTotal = data.total;
 
@@ -446,10 +428,6 @@ function checkout() {
     document.getElementById('paymentPopup').classList.add('show');
   });
 }
-
-
-
-
 
 // =====================
 // MEMBERSHIP
@@ -647,15 +625,22 @@ function searchMenu(keyword) {
       item.style.display = 'none';
     }
   });
-
-  // reset auto scroll index biar tetap jalan normal
-  currentAutoIndex = 0;
 }
+const searchInput = document.querySelector('.menu-search');
+
+if (searchInput) {
+  searchInput.addEventListener('input', function () {
+    searchMenu(this.value);
+  });
+}
+
+  currentAutoIndex = 0;
+  
 </script>
+
 <!-- =========================
      POPUP PILIH PEMBAYARAN
 ========================= -->
-
 
 <script>
   let pendingCheckoutData = null;
@@ -697,9 +682,6 @@ function payDANA() {
     `dana.php?id=${currentTransaksi}&total=${currentTotal}`;
 }
 
-
-
-
 </script>
 <div class="payment-popup" id="paymentPopup">
   <div class="payment-card">
@@ -726,6 +708,7 @@ function payDANA() {
 
   </div>
 </div>
+
 
 </body>
 </html>
