@@ -245,10 +245,14 @@ function openOrder(name, price) {
   }
 
   currentItem = { name, price, qty: 1 };
+
   document.getElementById('orderName').textContent = name;
   document.getElementById('qty').textContent = '1';
   document.getElementById('orderNotes').value = '';
   updateTotal();
+
+  document.getElementById('orderSheet').classList.add('show');
+  document.getElementById('checkoutBar').classList.add('hide');
 
   const sheet = document.getElementById('orderSheet');
   sheet.classList.remove('hidden');
@@ -295,6 +299,7 @@ function addToCart() {
   }
 
   document.getElementById('orderSheet').classList.remove('show');
+  document.getElementById('checkoutBar').classList.remove('hide');
   updateCheckoutBar();
 }
 
