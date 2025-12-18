@@ -682,9 +682,9 @@ function payQRIS() {
     `qris.php?id=${currentTransaksi}&total=${currentTotal}`;
 }
 
-function payDANA() {
+function payEwallet() {
   window.location.href =
-    `dana.php?id=${currentTransaksi}&total=${currentTotal}`;
+    `ewallet.php?id=${currentTransaksi}&total=${currentTotal}`;
 }
 
 </script>
@@ -701,11 +701,11 @@ function payDANA() {
         <span>Bayar dengan QRIS</span>
       </button>
 
-      <!-- DANA -->
-      <button class="pay-btn dana" onclick="payDANA()">
-        <img src="dana.png" alt="DANA">
-        <span>Bayar dengan DANA</span>
-      </button>
+      <!-- E-WALLET -->
+  <button class="pay-btn ewallet" onclick="payEwallet()">
+    <img src="ewallet.png" alt="E-Wallet">
+    <span>Bayar dengan E-Wallet</span>
+  </button>
 
     </div>
 

@@ -639,7 +639,8 @@ body {
 .payment-popup {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.55);
+  backdrop-filter: blur(4px);
   display: none;
   justify-content: center;
   align-items: center;
@@ -651,58 +652,87 @@ body {
 }
 
 .payment-card {
-  background: #fff;
-  width: 320px;
-  padding: 20px;
-  border-radius: 16px;
+  background: linear-gradient(180deg, #ffffff, #f9f9f9);
+  width: 340px;
+  padding: 24px 20px;
+  border-radius: 22px;
   text-align: center;
-  animation: pop 0.25s ease;
+  box-shadow:
+    0 20px 40px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.6);
+  animation: pop 0.3s ease;
 }
 
 .payment-card h3 {
-  margin-bottom: 16px;
+  margin-bottom: 18px;
   color: #1B7EA1;
+  font-size: 20px;
+  font-weight: 800;
 }
 
 .payment-methods {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
 }
 
 .pay-btn {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px;
-  border-radius: 12px;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: 16px;
   border: none;
   cursor: pointer;
-  font-weight: bold;
-  font-size: 14px;
+  font-weight: 700;
+  font-size: 15px;
+  background: #f2f2f2;
+  color: #222;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
 }
 
 .pay-btn img {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
 }
 
 .pay-btn.qris {
-  background: #f5f5f5;
+  background: linear-gradient(180deg, #ffffff, lightgray);
 }
 
-.pay-btn.dana {
-  background: #008fe5;
-  color: white;
+.pay-btn.qris:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(20, 95, 122, 0.45);
+}
+
+.pay-btn.ewallet {
+  background: linear-gradient(180deg, #ffffff, lightgray);
+  color: black;
+}
+
+.pay-btn.ewallet:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 10px 20px rgba(20, 95, 122, 0.45);
 }
 
 .close-pay {
-  margin-top: 14px;
+  margin-top: 18px;
   background: none;
   border: none;
   color: #999;
+  font-size: 14px;
   cursor: pointer;
+  transition: color 0.2s ease;
 }
+
+.close-pay:hover {
+  color: #555;
+  text-decoration: underline;
+}
+
 /* =========================
    RESTO INFO CARD
 ========================= */
