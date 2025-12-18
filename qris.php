@@ -4,21 +4,37 @@ $total = $_GET['total'];
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+  <meta charset="UTF-8">
   <title>QRIS Payment</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- CSS TERPISAH -->
+  <link rel="stylesheet" href="qris.css">
 </head>
-<body style="text-align:center;font-family:Arial">
+<body>
 
-<h2>QRIS Payment</h2>
-<p>Total Pembayaran:</p>
-<h3>Rp<?= number_format($total,0,',','.') ?></h3>
+  <div class="qris-card">
 
-<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=QRIS-<?= $id ?>">
+    <h2>QRIS Payment</h2>
 
-<br><br>
+    <div class="qris-total-label">Total Pembayaran</div>
+    <div class="qris-total">
+      Rp<?= number_format($total,0,',','.') ?>
+    </div>
 
-<button onclick="confirmQRIS()">Konfirmasi Pembayaran</button>
+    <div class="qris-qr">
+      <img
+        src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=QRIS-<?= $id ?>"
+        alt="QRIS Code">
+    </div>
+
+    <button class="qris-btn" onclick="confirmQRIS()">
+      Konfirmasi Pembayaran
+    </button>
+
+  </div>
 
 <script>
 function confirmQRIS() {
