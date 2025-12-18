@@ -45,27 +45,7 @@ while ($row = mysqli_fetch_assoc($res)) {
 <html>
 <head>
   <title>Riwayat Pesanan</title>
-  <style>
-    body { font-family: Arial; margin: 20px; background: #f9f9f9; }
-    .struk { border: 1px solid #ccc; padding: 15px; margin-bottom: 25px; width: 500px; background: #fff; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
-    .title { font-weight: bold; font-size: 18px; margin-bottom: 5px; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { padding: 4px; text-align: left; }
-    .total-row { font-weight: bold; border-top: 1px solid #aaa; margin-top: 8px; padding-top: 5px; }
-    .status { margin-top: 8px; font-style: italic; color: green; }
-    .buttons { margin-top: 30px; }
-    .buttons a {
-      display: inline-block;
-      padding: 10px 18px;
-      margin-right: 10px;
-      background: #008FE5;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 6px;
-      font-weight: bold;
-    }
-    small { color: #888; font-size: 12px; }
-  </style>
+  <link rel="stylesheet" type="text/css" href="history.css">
 </head>
 <body>
 

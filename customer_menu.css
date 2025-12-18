@@ -76,18 +76,6 @@ body {
   text-align: center;
   color: #1B7EA1;
 }
-.order-btn {
-  width: 100%;
-  padding: 14px;
-  background: #1B7EA1;
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-weight: bold;
-  font-size: 16px;
-  cursor: pointer;
-  margin-top: 10px;
-}
 
 /* =========================
    CATEGORY NAV (SCROLL)
@@ -352,49 +340,126 @@ body {
 }
 
 /* =========================
-   CHECKOUT BAR
+   CHECKOUT BAR (REDESIGN)
 ========================= */
 .checkout-bar {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #1B7EA1;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 920px;
+
+  background: linear-gradient(135deg, #1B7EA1, #145f7a);
   color: white;
-  padding: 15px 20px;
+
+  padding: 16px 18px;
+  border-radius: 20px;
+
   display: none;
-  justify-content: space-between;
   align-items: center;
-  z-index: 100;
+  justify-content: space-between;
+  gap: 16px;
+
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+  z-index: 200;
 }
 
 .checkout-bar.show {
   display: flex;
 }
 
+/* LEFT SIDE */
 .checkout-info {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 8px;
+  flex: 1;
+  max-height: 140px;
+  overflow-y: auto;
 }
 
-.checkout-info small {
-  opacity: 0.9;
-}
+/* ITEM */
+.cart-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  gap: 6px;
+  align-items: center;
 
-.checkout-btn {
-  background: #F9C80E;
-  color: #1B7EA1;
-  border: none;
-  padding: 10px 25px;
+  background: rgba(255,255,255,0.12);
+  padding: 8px 10px;
   border-radius: 10px;
-  font-weight: bold;
+  font-size: 13px;
+}
+
+.cart-row span {
+  line-height: 1.3;
+}
+
+/* QTY */
+.cart-qty {
+  width: 42px;
+  height: 28px;
+  border-radius: 6px;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+  background: #fff;
+  color: #145f7a;
+}
+
+/* NOTE */
+.cart-note {
+  width: 90px;
+  height: 28px;
+  border-radius: 6px;
+  border: none;
+  font-size: 12px;
+  padding: 0 6px;
+  background: #f1f1f1;
+}
+
+/* REMOVE */
+.cart-remove {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255,255,255,0.2);
+  color: white;
+  font-size: 14px;
   cursor: pointer;
-  transition: 0.2s ease;
+}
+
+.cart-remove:hover {
+  background: #ff4d4d;
+}
+
+/* TABLE INFO */
+.checkout-info small {
+  opacity: 0.85;
+  font-size: 12px;
+  margin-top: 2px;
+}
+
+/* RIGHT SIDE */
+.checkout-btn {
+  background: linear-gradient(135deg, #F9C80E, #e6b800);
+  color: #145f7a;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 15px;
+  cursor: pointer;
+  white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+  transition: transform 0.2s ease;
 }
 
 .checkout-btn:hover {
-  background: #e6b800;
+  transform: scale(1.05);
 }
 
 /* =========================
@@ -517,83 +582,6 @@ body {
   margin-bottom: 5px; /* jarak antar kategori */
 }
 
-
-/* =========================
-   CHECKOUT ITEM STYLE
-========================= */
-.cart-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  margin-bottom: 6px;
-}
-
-.cart-row span {
-  flex: 1;
-  line-height: 1.3;
-}
-
-/* INPUT JUMLAH */
-.cart-qty {
-  width: 44px;
-  height: 28px;
-  text-align: center;
-  border-radius: 6px;
-  border: none;
-  outline: none;
-  font-size: 13px;
-  font-weight: 600;
-  background: #ffffff;
-  color: #1B7EA1;
-}
-
-/* HILANGKAN PANAH INPUT */
-.cart-qty::-webkit-inner-spin-button,
-.cart-qty::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-.cart-qty {
-  appearance: textfield;
-}
-
-/* BUTTON HAPUS */
-.cart-remove {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(255, 80, 80, 0.2);
-  color: #ff4d4d;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-}
-
-.cart-remove:hover {
-  background: #ff4d4d;
-  color: white;
-  transform: scale(1.1);
-}
-
-.menu-search::placeholder {
-  color: #999;
-}
-.cart-note {
-  width: 90px;
-  height: 28px;
-  border-radius: 6px;
-  border: none;
-  outline: none;
-  padding: 0 6px;
-  font-size: 12px;
-  background: #f1f1f1;
-}
 /* =========================
    PAYMENT POPUP
 ========================= */

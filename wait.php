@@ -40,26 +40,7 @@ if (!$data = mysqli_fetch_assoc($res)) {
 <html>
 <head>
   <title>Struk Pemesanan</title>
-  <style>
-    body { font-family: Arial; background: #f9f9f9; padding: 20px; }
-    .box { border: 1px solid #ccc; padding: 20px; width: 600px; margin: auto; background: #fff; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
-    h2 { text-align: center; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { padding: 8px; border-bottom: 1px solid #ddd; text-align: left; }
-    .total-row { font-weight: bold; }
-    .status { margin-top: 15px; font-weight: bold; color: green; }
-    .buttons { margin-top: 25px; text-align: center; }
-    .buttons a button {
-      padding: 10px 20px;
-      margin: 5px;
-      font-size: 14px;
-      background: #008FE5;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-  </style>
+
 </head>
 <body>
 
